@@ -1,19 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class ShipController : IUpdate
+public class ShipController : BaseController, IPlayerControlled
 {
     private ShipData shipData;
     private Transform unityTransform;
     private Vector2 playerInput;
 
+    public ShipController(ShipFactoryBase factory) : base()
+    {
+        
+        if (factory == null)
+        {
+            throw new ArgumentNullException(nameof(factory));
+        }
 
-    public void OnUpdate(float deltaTime)
+        playerInput = Vector2.zero;
+        shipData = factory.CreateShipData();
+        unityTransform = factory.CreateUnityTransform();
+    }
+
+
+    public override void OnUpdate(float deltaTime)
     {
         var hor = playerInput.x * deltaTime;
         var vert = playerInput.y > 0 ? playerInput.y * deltaTime : 0;
@@ -27,9 +36,15 @@ public class ShipController : IUpdate
         playerInput.y = 0;
     }
 
+    public override void Dispose()
+    {
+        base.Dispose();
+
+    }
+
     public void SetPlayerInput(float horizontal, float vertical)
     {
-        playerInput.x = horizontal;
+        playerInput.x = -horizontal;
         playerInput.y = vertical;
     }
 

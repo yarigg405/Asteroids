@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f14f4a601bb4fd4a845b13174fb6448, type: 3}
+  m_Name: PrefabsStorage
+  m_EditorClassIdentifier: 
+  playerShipPrefab: {fileID: 3389036709271946308, guid: 74f093b42fb7fd74fa6470abbb691bf7, type: 3}
+  bulletPrefabs: []
+  asteroidsPrefabs: []
+  ufosPrefabs: []
