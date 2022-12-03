@@ -5,11 +5,9 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] Vector3 currentInertia;
-    [SerializeField] float currentSpeed;
 
     [Space]
     [SerializeField] float speedModificator;
-    [SerializeField] float accelerateModificator;
     [SerializeField] Vector3 rotationModificator;
 
 
@@ -21,7 +19,7 @@ public class PlayerMove : MonoBehaviour
         var vert = Mathf.Abs(-Input.GetAxis("Vertical"));
 
 
-        currentInertia = Vector3.MoveTowards(currentInertia, transform.up, vert * dt);    
+        currentInertia = Vector3.MoveTowards(currentInertia, transform.up, vert * dt * speedModificator);   
 
 
         var pos = transform.position;
