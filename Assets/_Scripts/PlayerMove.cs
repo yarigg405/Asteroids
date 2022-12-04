@@ -27,10 +27,4 @@ public class PlayerMove : MonoBehaviour
         transform.position = pos;
         transform.Rotate(hor * rotationModificator * dt);
     }
-
-
-
-
-
-
 }

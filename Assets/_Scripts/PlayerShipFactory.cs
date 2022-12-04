@@ -11,17 +11,13 @@ public class PlayerShipFactory : ShipFactoryBase
 
     public override ShipData CreateShipData()
     {
-        var stats = new StatsContainer(playerRotationMod, playerSpeedMod);
+        var stats = new ShipStatsContainer(playerRotationMod, playerSpeedMod);
         return new ShipData(stats);
-
     }
 
-    public override Transform CreateUnityTransform()
+    protected override Transform GetPrefab()
     {
-        var transform = GameObject.Instantiate(storage.GetPlayer(), Vector3.zero, Quaternion.identity);
-        transform.localScale = Vector3.one;
-
-        return transform;
+        return storage.GetPlayer();
     }
 
 

@@ -4,18 +4,37 @@ using System.Linq;
 using UnityEngine;
 using System.Text;
 using System.Threading.Tasks;
-
+using Unity.VisualScripting;
 
 public class ShipData
 {
-    public StatsContainer stats { get; private set; }
+    public ShipStatsContainer stats { get; private set; }
     public TransformInfo transformInfo { get; private set; }
+    public WeaponBaseController mainWeapon { get; internal set; }
+    public WeaponBaseController secondaryWeapon { get; internal set; }
 
-    public ShipData(StatsContainer shipStats)
+
+    public ShipData(ShipStatsContainer shipStats)
     {
         transformInfo = new TransformInfo();
         stats = shipStats;
     }
+}
+
+internal static class ShipDataExtensions
+{
+    public static ShipData SetMainWeapon(this ShipData ship, WeaponBaseController wep)
+    {
+        ship.mainWeapon = wep;
+        return ship;
+    }
+
+    public static ShipData SetSecondaryWeapon(this ShipData ship, WeaponBaseController wep)
+    {
+        ship.secondaryWeapon = wep;
+        return ship;
+    }
+
 }
 
 public class TransformInfo
@@ -30,16 +49,23 @@ public class TransformInfo
         position = Vector2.zero;
         currentRadians = 0f;
     }
+
+    public TransformInfo(TransformInfo tr)
+    {
+        velocity = tr.velocity;
+        position = tr.position;
+        currentRadians = tr.currentRadians;
+    }
 }
 
 
 
-public class StatsContainer
+public class ShipStatsContainer
 {
     public float rotationModifier { get; private set; }
     public float speedModifier { get; private set; }
 
-    public StatsContainer(float rotation, float speed)
+    public ShipStatsContainer(float rotation, float speed)
     {
         rotationModifier = rotation;
         speedModifier = speed;

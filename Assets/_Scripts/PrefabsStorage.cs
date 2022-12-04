@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "PrefabsStorage", menuName = "GameSettings/PrefabsStorage", order = 1)]
-public sealed class PrefabsStorage : ScriptableObject
+public class PrefabsStorage : ScriptableObject
 {
     [SerializeField] Transform playerShipPrefab;
     [SerializeField] List<Transform> bulletPrefabs;

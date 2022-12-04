@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShipController : BaseController, IPlayerControlled
 {
     private ShipData shipData;
-    private Transform unityTransform;
     private Vector2 playerInput;
 
     public ShipController(ShipFactoryBase factory) : base()
     {
-        
         if (factory == null)
         {
             throw new ArgumentNullException(nameof(factory));
@@ -36,16 +35,22 @@ public class ShipController : BaseController, IPlayerControlled
         playerInput.y = 0;
     }
 
-    public override void Dispose()
-    {
-        base.Dispose();
-
-    }
-
     public void SetMovementInput(float horizontal, float vertical)
     {
         playerInput.x = -horizontal;
         playerInput.y = vertical;
+    }
+
+    public void SetWeaponFire()
+    {
+        if (shipData.mainWeapon != null)
+            shipData.mainWeapon.TryShoot();
+    }
+
+    public void SetAlternativeWeaponFire()
+    {
+        if (shipData.secondaryWeapon != null)
+            shipData.secondaryWeapon.TryShoot();
     }
 
 

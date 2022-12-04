@@ -7,6 +7,7 @@ public abstract class BaseController : IUpdate, IDisposable
 {
     public static List<IUpdate> AllUpdates;
 
+    protected Transform unityTransform;
 
     public BaseController()
     {
@@ -18,6 +19,10 @@ public abstract class BaseController : IUpdate, IDisposable
         if (AllUpdates.Contains(this))
         {
             AllUpdates.Remove(this);
+        }
+        if (unityTransform != null)
+        {
+            GameObject.Destroy(unityTransform.gameObject);
         }
     }
 

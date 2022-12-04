@@ -1,18 +1,10 @@
 ﻿using UnityEngine;
 
-public abstract class ShipFactoryBase
+public abstract class ShipFactoryBase : UnityFactoryBase
 {
-    protected PrefabsStorage storage;
+    public ShipFactoryBase(PrefabsStorage prefabStorage) : base(prefabStorage)
+    {}
 
-
-    public ShipFactoryBase(PrefabsStorage prefabStorage)
-    {
-        storage = prefabStorage;
-    }
-
-    public abstract ShipData CreateShipData();
-
-    public abstract Transform CreateUnityTransform();
-
+    public abstract ShipData CreateShipData();  
 }
 
