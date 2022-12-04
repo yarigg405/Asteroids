@@ -42,7 +42,7 @@ public class ShipController : BaseController, IPlayerControlled
 
     }
 
-    public void SetPlayerInput(float horizontal, float vertical)
+    public void SetMovementInput(float horizontal, float vertical)
     {
         playerInput.x = -horizontal;
         playerInput.y = vertical;

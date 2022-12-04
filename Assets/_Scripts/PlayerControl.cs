@@ -19,7 +19,7 @@ public class PlayerControl : IUpdate
         var hor = Input.GetAxis("Horizontal");
         var vert = Input.GetAxis("Vertical");
 
-        player.SetPlayerInput(hor, vert);
+        player.SetMovementInput(hor, vert);
     }
 }
 

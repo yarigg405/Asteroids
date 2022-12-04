@@ -1,6 +1,6 @@
 ﻿
 public interface IPlayerControlled
 {
-    void SetPlayerInput(float horizontal, float vertical);
+    void SetMovementInput(float horizontal, float vertical);
 }
 
