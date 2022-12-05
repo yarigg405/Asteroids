@@ -26,12 +26,14 @@ internal static class ShipDataExtensions
     public static ShipData SetMainWeapon(this ShipData ship, WeaponBaseController wep)
     {
         ship.mainWeapon = wep;
+        wep.SetOwnerShipTransform(ship.transformInfo);
         return ship;
     }
 
     public static ShipData SetSecondaryWeapon(this ShipData ship, WeaponBaseController wep)
     {
         ship.secondaryWeapon = wep;
+        wep.SetOwnerShipTransform(ship.transformInfo);
         return ship;
     }
 

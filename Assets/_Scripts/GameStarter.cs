@@ -11,6 +11,8 @@ public class GameStarter : MonoBehaviour
     private void Start()
     {
         BaseController.AllUpdates = new List<IUpdate>();
+        BaseController.AddToUpdates = new List<IUpdate>();
+        BaseController.RemoveFromUpdates = new List<IUpdate>();
 
         ShipFactoryBase shipFactory = new PlayerShipFactory(prefabsStorage);
         var playerShip = new ShipController(shipFactory);

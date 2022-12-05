@@ -6,20 +6,19 @@ using UnityEngine;
 public abstract class BaseController : IUpdate, IDisposable
 {
     public static List<IUpdate> AllUpdates;
+    public static List<IUpdate> AddToUpdates;
+    public static List<IUpdate> RemoveFromUpdates;
 
     protected Transform unityTransform;
 
     public BaseController()
     {
-        AllUpdates.Add(this);
+        AddToUpdates.Add(this);
     }
 
     public virtual void Dispose()
     {
-        if (AllUpdates.Contains(this))
-        {
-            AllUpdates.Remove(this);
-        }
+        RemoveFromUpdates.Add(this);
         if (unityTransform != null)
         {
             GameObject.Destroy(unityTransform.gameObject);

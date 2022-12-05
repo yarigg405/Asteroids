@@ -10,7 +10,7 @@ public class PlayerControl : IUpdate
 
     public PlayerControl(IPlayerControlled playerControlled)
     {
-        BaseController.AllUpdates.Add(this);
+        BaseController.AddToUpdates.Add(this);
         player = playerControlled;
     }
 
@@ -20,6 +20,11 @@ public class PlayerControl : IUpdate
         var vert = Input.GetAxis("Vertical");
 
         player.SetMovementInput(hor, vert);
+
+        if (Input.GetAxis("Jump") > 0) //default - space key
+            player.SetWeaponFire();              
+        if (Input.GetAxis("Fire3") > 0) //default - left shift key
+            player.SetAlternativeWeaponFire();  
     }
 }
 

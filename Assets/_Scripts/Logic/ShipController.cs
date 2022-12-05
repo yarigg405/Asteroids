@@ -16,7 +16,9 @@ public class ShipController : BaseController, IPlayerControlled
         }
 
         playerInput = Vector2.zero;
-        shipData = factory.CreateShipData();
+        shipData = factory.CreateShipData()
+            .SetMainWeapon(factory.CreateMainWeapon())
+            .SetSecondaryWeapon(factory.CreateSecondaryWeapon());
         unityTransform = factory.CreateUnityTransform();
     }
 
