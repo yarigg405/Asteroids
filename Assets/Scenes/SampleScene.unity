@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabsStorage: {fileID: 11400000, guid: c29795c90337b85438dec9ccfe0c1170, type: 2}
+  updater: {fileID: 281573402}
 --- !u!114 &281573402
 MonoBehaviour:
   m_ObjectHideFlags: 0
