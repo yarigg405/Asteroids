@@ -6,6 +6,7 @@ public class WeaponTurret : WeaponBaseController
 {
     protected override float boltSpeed => 5f;
     protected override float boltLifeTime => 10f;
+    protected override PrefabType prefabType => PrefabType.Null;
 
     public WeaponTurret(WeaponFactoryBase factory) : base(factory)
     { }

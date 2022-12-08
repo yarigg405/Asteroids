@@ -36,7 +36,7 @@ public class PrefabsStorage : ScriptableObject
     private Transform Get(List<Transform> list, int index)
     {
         if (index < 0)
-            return list[0];
+            return list.GetRandomItem();
 
         if (index >= list.Count) return list.Last();
 

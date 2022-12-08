@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 public class ShipData
 {
     public ShipStatsContainer stats { get; private set; }
-    public TransformInfo transformInfo { get; private set; }
+    public TransformInfo transformInfo { get; protected set; }
     public WeaponBaseController mainWeapon { get; internal set; }
     public WeaponBaseController secondaryWeapon { get; internal set; }
 
@@ -18,21 +18,23 @@ public class ShipData
         transformInfo = new TransformInfo();
         stats = shipStats;
     }
+
+
 }
 
 internal static class ShipDataExtensions
 {
-    public static ShipData SetMainWeapon(this ShipData ship, WeaponBaseController wep)
+    public static ShipData SetMainWeapon(this ShipData ship, WeaponBaseController wep, Team team)
     {
         ship.mainWeapon = wep;
-        wep.SetOwnerShipTransform(ship.transformInfo);
+        wep.SetOwnerShipTransform(ship.transformInfo, team);
         return ship;
     }
 
-    public static ShipData SetSecondaryWeapon(this ShipData ship, WeaponBaseController wep)
+    public static ShipData SetSecondaryWeapon(this ShipData ship, WeaponBaseController wep, Team team)
     {
         ship.secondaryWeapon = wep;
-        wep.SetOwnerShipTransform(ship.transformInfo);
+        wep.SetOwnerShipTransform(ship.transformInfo, team);
         return ship;
     }
 

@@ -5,4 +5,6 @@ public class LinksMaster
     public IDespawner Despawner { get; set; }
     public IUpdater Updater { get; set; }
 
+
+    public PositionsHandler PositionsHandler { get; set; }
 }

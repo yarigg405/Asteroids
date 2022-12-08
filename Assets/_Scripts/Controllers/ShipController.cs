@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class ShipController : BaseController, IPlayerControlled
 {
-    private ShipData shipData;
+    public ShipData shipData { get; private set; }
     private Vector2 playerInput;
+    protected override PrefabType prefabType => PrefabType.PlayerShip;
+
+    public Team team { get; protected set; }
 
     public ShipController(ShipFactoryBase factory) : base(factory.GetLinksMaster())
     {
@@ -16,10 +19,10 @@ public class ShipController : BaseController, IPlayerControlled
         }
 
         playerInput = Vector2.zero;
-        shipData = factory.CreateShipData()
-            .SetMainWeapon(factory.CreateMainWeapon())
-            .SetSecondaryWeapon(factory.CreateSecondaryWeapon());
+        shipData = factory.CreateShipData();            
         unityTransform = factory.CreateUnityTransform();
+
+        team = Team.Player;
     }
 
 

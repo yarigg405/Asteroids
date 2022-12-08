@@ -8,6 +8,8 @@ public class WeaponLaser : WeaponBaseController
     protected override float boltLifeTime => 7f;
     protected override int boltDamage => 2;
 
+    protected override PrefabType prefabType => PrefabType.Null;
+
 
     private int maxCountOfBolts;
     private int currentCountOfBolts;

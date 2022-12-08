@@ -8,7 +8,7 @@ public abstract class BaseController : IUpdate, IDisposable
     protected LinksMaster linksMaster;
 
     protected Transform unityTransform;
-    protected virtual PrefabType prefabType => PrefabType.PlayerShip;
+    protected abstract PrefabType prefabType { get; }
 
 
     public BaseController(LinksMaster _linksMaster)

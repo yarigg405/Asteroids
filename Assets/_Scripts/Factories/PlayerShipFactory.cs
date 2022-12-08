@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Design.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class PlayerShipFactory : ShipFactoryBase
@@ -34,7 +33,10 @@ public class PlayerShipFactory : ShipFactoryBase
     public override ShipData CreateShipData()
     {
         var stats = new ShipStatsContainer(playerRotationMod, playerSpeedMod);
-        return new ShipData(stats);
+        return new ShipData(stats)
+            .SetMainWeapon(CreateMainWeapon(), Team.Player)
+            .SetSecondaryWeapon(CreateSecondaryWeapon(), Team.Player)
+        ;
     }
 
     protected override PrefabType GetPrefabType()

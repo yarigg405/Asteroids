@@ -16,5 +16,9 @@ MonoBehaviour:
   bulletPrefabs:
   - {fileID: 6893772215721363326, guid: 82faeb60087f8ca49aaa397f99d6284a, type: 3}
   - {fileID: 5856711094971820987, guid: 2e557a1c7c9159a44b76b8c2a49d7497, type: 3}
-  asteroidsPrefabs: []
-  ufosPrefabs: []
+  asteroidsPrefabs:
+  - {fileID: 2232221814382538352, guid: 576a23871e5ebcf478bf4414b449161d, type: 3}
+  - {fileID: 5899873043061173063, guid: 2c1c16e08d4ce584b966eadfbde1a6d3, type: 3}
+  - {fileID: 2635267844590617362, guid: 5b6a81051c5815146a699a999dff18a8, type: 3}
+  ufosPrefabs:
+  - {fileID: 8784686311278347211, guid: 417cacb464c09a44b9499f33f40e419e, type: 3}

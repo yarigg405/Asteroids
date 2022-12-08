@@ -15,15 +15,18 @@ public abstract class WeaponBaseController : BaseController
     protected virtual float boltLifeTime => 1f;
     protected virtual int boltDamage => 1;
 
+    public Team team { get; private set; }
+
     public WeaponBaseController(WeaponFactoryBase factory) : base(factory.GetLinksMaster())
     {
         maxCooldown = factory.maxCooldown;
         ownerShipTransform = factory.CreateTransformInfo();
     }
 
-    public WeaponBaseController SetOwnerShipTransform(TransformInfo transformInfo)
+    public WeaponBaseController SetOwnerShipTransform(TransformInfo transformInfo, Team _team)
     {
         ownerShipTransform = transformInfo;
+        team = _team;
         return this;
     }
 
@@ -64,6 +67,7 @@ public abstract class WeaponBaseController : BaseController
             .SetStats(stats)
             .SetTransformInfo(trInfo);
         bolt.SetUnityTransform(unityTr);
+        bolt.SetTeam(this);
         return bolt;
     }
 

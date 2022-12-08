@@ -8,6 +8,8 @@ public class BoltController : BaseController, IBolt
     public BoltStatsContainer boltStats { get; internal set; }
     public TransformInfo transformInfo { get; internal set; }
 
+    public Team team { get; private set; }
+
     protected override PrefabType prefabType => PrefabType.Bullet;
 
     public BoltController(LinksMaster linkMaster) : base(linkMaster)
@@ -16,6 +18,11 @@ public class BoltController : BaseController, IBolt
     public void SetUnityTransform(Transform unityTransform)
     {
         this.unityTransform = unityTransform;
+    }
+
+    public void SetTeam(WeaponBaseController weapon)
+    {
+        team = weapon.team;
     }
 
 
@@ -46,4 +53,10 @@ public static class BoltControllerExtensions
 
 public interface IBolt
 {
+}
+
+public enum Team
+{
+    Player,
+    Enemy,
 }
