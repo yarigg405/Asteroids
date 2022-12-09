@@ -7,6 +7,7 @@ public class Updater : MonoBehaviour, IUpdater
     private List<IUpdate> allUpdates = new List<IUpdate>();
     private List<IUpdate> addToUpdates = new List<IUpdate>();
     private List<IUpdate> removeFromUpdates = new List<IUpdate>();
+    private ILogicDelayer logicDelayer;
 
     private void Update()
     {
@@ -36,6 +37,10 @@ public class Updater : MonoBehaviour, IUpdater
             removeFromUpdates.Clear();
         }
 
+        if (logicDelayer != null)
+        {
+            logicDelayer.DoDelayedLogic();
+        }
     }
 
     public void AddToUpdateList(IUpdate obj)
@@ -48,7 +53,11 @@ public class Updater : MonoBehaviour, IUpdater
         removeFromUpdates.Add(obj);
     }
 
+    public void SetLogicDelayer(ILogicDelayer delayer)
 
+    {
+        logicDelayer = delayer; ;
+    }
 
 }
 

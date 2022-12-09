@@ -5,7 +5,6 @@ using UnityEngine;
 public class WeaponLaser : WeaponBaseController
 {
     protected override float boltSpeed => 7f;
-    protected override float boltLifeTime => 7f;
     protected override int boltDamage => 2;
 
     protected override PrefabType prefabType => PrefabType.Null;

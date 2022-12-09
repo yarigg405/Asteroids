@@ -3,7 +3,7 @@
 
 public class PlayerShipFactory : ShipFactoryBase
 {
-    private const float playerSpeedMod = 3f;
+    private const float playerSpeedMod = 2f;
     private const float playerRotationMod = 5f;
 
     private const int laserBoltsCount = 5;

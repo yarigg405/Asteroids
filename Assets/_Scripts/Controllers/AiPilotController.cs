@@ -31,7 +31,7 @@ public class AiPilotController : BaseController
             controlledShip.SetWeaponFire();
         }
 
-        var player = linksMaster.PositionsHandler.playerTransform;
+        var player = linksMaster.PositionsHandler.PlayerTransform;
         var ship = controlledShip.shipData;
 
         var deltaVector = (player.position - ship.transformInfo.position).normalized;

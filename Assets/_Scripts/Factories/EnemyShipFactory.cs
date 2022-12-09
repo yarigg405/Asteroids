@@ -2,7 +2,7 @@
 
 public class EnemyShipFactory : ShipFactoryBase
 {
-    private const float speedMod = 3f;
+    private const float speedMod = 1f;
     private const float rotationMod = 5f;
 
     public EnemyShipFactory(LinksMaster _linksMaster) : base(_linksMaster)

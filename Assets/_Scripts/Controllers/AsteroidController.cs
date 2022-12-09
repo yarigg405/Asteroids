@@ -7,21 +7,12 @@ public class AsteroidController : BaseController
 {
     protected override PrefabType prefabType => PrefabType.Asteroid;
     private int numOfPrefab = 0;
-    public TransformInfo transformInfo { get; internal set; }
-
 
     public AsteroidController(LinksMaster _linksMaster, TransformInfo trInfo, Transform unityTr)
         : base(_linksMaster)
     {
         transformInfo = trInfo;
         unityTransform = unityTr;
-    }
-
-
-    public override void OnUpdate(float deltatime)
-    {
-        transformInfo.position += transformInfo.velocity * deltatime;
-        unityTransform.position = transformInfo.position;
     }
 
     public void GetDamage(int damage)
@@ -34,6 +25,30 @@ public class AsteroidController : BaseController
         Dispose();
     }
 
+    protected override void CheckCollisions()
+    {
+        var nearestBolts = fieldCell.Get<BoltController>();
+        foreach (var item in nearestBolts)
+        {
+            var bolt = item as BoltController;
+            if (bolt.team == Team.Player)
+            {
+                var distance = (transformInfo.position - bolt.transformInfo.position).sqrMagnitude;
+                var radius = (transformInfo.size + bolt.transformInfo.size) *
+                    (transformInfo.size + bolt.transformInfo.size);
+                if (distance < radius)
+                {
+                    var dmg = bolt.boltStats.boltDamage;
+                    GetDamage(dmg);
+
+                    if (dmg < 2)
+                        bolt.Dispose();
+                }
+
+            }
+        }
+    }
+
     private void SpawnShards()
     {
         var shardsCount = Random.Range(2, 4);
@@ -41,6 +56,7 @@ public class AsteroidController : BaseController
         for (int i = 0; i < shardsCount; i++)
         {
             var trInfo = new TransformInfo(transformInfo);
+            trInfo.size = transformInfo.size * 0.7f;
             var spd = transformInfo.velocity.magnitude;
             spd *= 1.3f;
             var radians = Random.Range(0f, 360f) * Mathf.Deg2Rad;

@@ -57,7 +57,8 @@ public abstract class WeaponBaseController : BaseController
         var velX = Mathf.Sin(trInfo.currentRadians) * stats.boltSpeed;
         var velY = Mathf.Cos(trInfo.currentRadians) * stats.boltSpeed;
         trInfo.velocity = new Vector2(-velX, velY);
-        
+        trInfo.size = 0.1f;
+
         var unityTr = InstantiateBolt();
         unityTr.transform.localScale = Vector3.one;
         unityTr.position = trInfo.position;

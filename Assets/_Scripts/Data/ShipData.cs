@@ -16,6 +16,7 @@ public class ShipData
     public ShipData(ShipStatsContainer shipStats)
     {
         transformInfo = new TransformInfo();
+        transformInfo.size = 0.5f;
         stats = shipStats;
     }
 

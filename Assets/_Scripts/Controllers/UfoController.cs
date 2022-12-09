@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 
 public class UfoController : ShipController
 {
@@ -10,6 +11,11 @@ public class UfoController : ShipController
         shipData.transformInfo.velocity = transformInfo.velocity;
         shipData.transformInfo.position = transformInfo.position;
 
+    }
+
+    protected override Type GetConcreteType()
+    {
+        return typeof(ShipController);
     }
 }
 

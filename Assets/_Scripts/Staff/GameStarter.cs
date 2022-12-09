@@ -12,22 +12,33 @@ public class GameStarter : MonoBehaviour
 
     private void Start()
     {
+        LinksMaster master = new LinksMaster();
+        master.MinMaxBounds = new MinMaxBounds()
+        {
+            minX = -4.8f,
+            maxX = 4.8f,
+            minY = -5.54f,
+            maxY = 7.54f,
+        };
         var poolManager = CreatePoolManager();
         var spawner = new PrefabSpawner(prefabsStorage, poolManager);
-        var positionsHandler = new PositionsHandler();
-        LinksMaster master = new LinksMaster();
+
         master.Updater = updater;
         master.Spawner = spawner;
         master.Despawner = spawner;
-        master.PositionsHandler = positionsHandler;
+        master.PositionsHandler = CreatePositionHandler(master.MinMaxBounds);
 
-        ShipFactoryBase shipFactory = new PlayerShipFactory(master);
+        var logicDelayer = new LogicDelayer();
+        master.LogicDelayer = logicDelayer;
+        updater.SetLogicDelayer(logicDelayer);
+
+        var shipFactory = new PlayerShipFactory(master);
         var playerShip = new ShipController(shipFactory);
-
         var playerControl = new PlayerControl(playerShip, updater);
+        master.PositionsHandler.PlayerTransform = playerShip.shipData.transformInfo;
+
         var enemiesSpawner = new EnemiesSpawner(master);
 
-        positionsHandler.playerTransform = playerShip.shipData.transformInfo;
     }
 
     private PoolManager CreatePoolManager()
@@ -36,11 +47,18 @@ public class GameStarter : MonoBehaviour
         poolManager.PopulateWith(PoolType.Bullets, prefabsStorage.GetBullet(0).gameObject, 50);
         poolManager.PopulateWith(PoolType.Bullets, prefabsStorage.GetBullet(1).gameObject, 50);
 
-        poolManager.PopulateWith(PoolType.Enemies, prefabsStorage.GetAsteroid(0).gameObject, 10);
-        poolManager.PopulateWith(PoolType.Enemies, prefabsStorage.GetAsteroid(1).gameObject, 10);
-        poolManager.PopulateWith(PoolType.Enemies, prefabsStorage.GetAsteroid(2).gameObject, 10);
+        poolManager.PopulateWith(PoolType.Enemies, prefabsStorage.GetAsteroid(0).gameObject, 15);
+        poolManager.PopulateWith(PoolType.Enemies, prefabsStorage.GetAsteroid(1).gameObject, 15);
+        poolManager.PopulateWith(PoolType.Enemies, prefabsStorage.GetAsteroid(2).gameObject, 15);
 
         return poolManager;
+    }
+
+    private IPositionsHandler CreatePositionHandler(MinMaxBounds bounds)
+    {
+        var positionsHandler = new PositionsHandler(bounds);
+
+        return positionsHandler;
     }
 
 }

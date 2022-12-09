@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemiesSpawner : IUpdate
 {
@@ -12,9 +11,9 @@ public class EnemiesSpawner : IUpdate
     private float spawnTime = 3f;
 
     private int minSpawnCount = 1;
-    private int maxSpawnCount = 1;
+    private int maxSpawnCount = 4;
 
-    private float ufoSpawnRatio = 1.1f;
+    private float ufoSpawnRatio = 0.1f;
 
     #endregion
 
@@ -59,6 +58,7 @@ public class EnemiesSpawner : IUpdate
     {
         var trInfo = GetRandomTransformInfo();
         var unityTr = master.Spawner.SpawnUnityTransform(PrefabType.Asteroid, 0);
+        unityTr.position = trInfo.position;
         var asteroid = new AsteroidController(master, trInfo, unityTr);
 
     }
@@ -67,6 +67,7 @@ public class EnemiesSpawner : IUpdate
     {
         var trInfo = GetRandomTransformInfo();
         var ufoShip = new UfoController(trInfo, ufoShipFactory);
+        ufoShip.transformInfo.position = trInfo.position;
         var pilot = new AiPilotController(master, 2f, ufoShip);
     }
 

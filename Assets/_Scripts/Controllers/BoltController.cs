@@ -6,7 +6,6 @@ using UnityEngine;
 public class BoltController : BaseController, IBolt
 {
     public BoltStatsContainer boltStats { get; internal set; }
-    public TransformInfo transformInfo { get; internal set; }
 
     public Team team { get; private set; }
 
@@ -28,8 +27,7 @@ public class BoltController : BaseController, IBolt
 
     public override void OnUpdate(float deltatime)
     {
-        transformInfo.position += transformInfo.velocity * deltatime;
-        unityTransform.position = transformInfo.position;
+        base.OnUpdate(deltatime);  
 
         boltStats.lifeTime -= deltatime;
         if (boltStats.lifeTime <= 0) Dispose();
