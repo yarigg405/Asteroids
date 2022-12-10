@@ -6,12 +6,7 @@ public class FieldCell : IFieldCell
     private Dictionary<Type, List<BaseController>> gameEntities;
     public FieldCell()
     {
-        gameEntities = new Dictionary<Type, List<BaseController>>
-        {
-            { typeof(BoltController), new List<BaseController>() },
-            { typeof(AsteroidController), new List<BaseController>() },
-            { typeof(ShipController), new List<BaseController>() }
-        };
+        gameEntities = new Dictionary<Type, List<BaseController>>();
     }
 
 

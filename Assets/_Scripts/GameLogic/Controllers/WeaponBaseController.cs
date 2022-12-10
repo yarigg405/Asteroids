@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class WeaponBaseController : BaseController
+public abstract class WeaponBaseController : BaseController, IWeapon
 {
     private TransformInfo ownerShipTransform;
 
@@ -21,11 +21,10 @@ public abstract class WeaponBaseController : BaseController
         ownerShipTransform = factory.CreateTransformInfo();
     }
 
-    public WeaponBaseController SetOwnerShipTransform(TransformInfo transformInfo, Team _team)
+    public void SetOwnerShipTransform(TransformInfo transformInfo, Team _team)
     {
         ownerShipTransform = transformInfo;
         team = _team;
-        return this;
     }
 
 
@@ -81,7 +80,5 @@ public abstract class WeaponBaseController : BaseController
     protected virtual void ConsumeBolts()
     {
     }
-
-
 }
 
