@@ -14,7 +14,7 @@ public class FieldCell : IFieldCell
         };
     }
 
-   
+
     public void Add<T>(Type t, T item) where T : BaseController
     {
         if (!gameEntities.ContainsKey(t))

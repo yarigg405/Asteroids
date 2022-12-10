@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class ShipFactoryBase : UnityFactoryBase
+﻿public abstract class ShipFactoryBase : UnityFactoryBase
 {
     public ShipFactoryBase(LinksMaster _linksMaster) : base(_linksMaster)
     { }

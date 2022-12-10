@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-
-
-public class PlayerShipFactory : ShipFactoryBase
+﻿public class PlayerShipFactory : ShipFactoryBase
 {
     private const float playerSpeedMod = 2f;
     private const float playerRotationMod = 5f;

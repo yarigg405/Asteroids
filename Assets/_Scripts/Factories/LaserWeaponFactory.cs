@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class LaserWeaponFactory : WeaponFactoryBase
+﻿public class LaserWeaponFactory : WeaponFactoryBase
 {
     public override float maxCooldown => 1f;
 

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Purchasing;
 
 public class PositionsHandler : IPositionsHandler
 {

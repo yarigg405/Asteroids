@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TurretWeaponFactory : WeaponFactoryBase
+﻿public class TurretWeaponFactory : WeaponFactoryBase
 {
     public override float maxCooldown => 0.1f;
 
     public TurretWeaponFactory(LinksMaster _linksMaster) : base(_linksMaster)
-    {}
+    { }
 
     public override TransformInfo CreateTransformInfo()
     {

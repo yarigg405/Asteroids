@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoltController : BaseController, IBolt
@@ -27,7 +24,7 @@ public class BoltController : BaseController, IBolt
 
     public override void OnUpdate(float deltatime)
     {
-        base.OnUpdate(deltatime);  
+        base.OnUpdate(deltatime);
 
         boltStats.lifeTime -= deltatime;
         if (boltStats.lifeTime <= 0) Dispose();

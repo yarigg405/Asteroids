@@ -6,7 +6,7 @@
         Fx = 1,
         Bullets = 2,
         Enemies = 3,
-        
+
     }
 
 }
