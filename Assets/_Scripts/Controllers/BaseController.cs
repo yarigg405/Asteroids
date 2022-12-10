@@ -7,8 +7,8 @@ using UnityEngine;
 public abstract class BaseController : IUpdate, IDisposable
 {
     protected LinksMaster linksMaster;
-
     protected Transform unityTransform;
+    public bool isDisposed { get; private set; } = false;
 
     public virtual TransformInfo transformInfo { get; internal set; }
     protected abstract PrefabType prefabType { get; }
@@ -28,6 +28,7 @@ public abstract class BaseController : IUpdate, IDisposable
 
     public virtual void Dispose()
     {
+        isDisposed = true;
         linksMaster.LogicDelayer.AddDelay(() =>
         {
             linksMaster.Updater.RemoveFromUpdateList(this);

@@ -1,39 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 
 public class PlayerControl : IUpdate
 {
-    IPlayerControlled player;
+    private IPlayerControlled player;
+    private PlayerInput plInput;
 
-    public PlayerControl(IPlayerControlled playerControlled, IUpdater updater)
+    private Vector2 move;
+    private bool shoot = false;
+    private bool alternativeShoot = false;
+
+
+
+    public PlayerControl(IPlayerControlled playerControlled)
     {
-        updater.AddToUpdateList(this);
         player = playerControlled;
+        plInput = GameObject.FindObjectOfType<PlayerInput>();
+
+        var controls = plInput.actions;
+        var actionMap = controls.FindActionMap("Player");
+
+        var moving = actionMap.FindAction("Move");
+        moving.started += MoveAction;
+        moving.performed += MoveAction;
+        moving.canceled += MoveAction;
+
+        var shooting = actionMap.FindAction("Fire");
+        shooting.started += FireAction;
+        shooting.performed += FireAction;
+        shooting.canceled += FireAction;
+
+        var altShooting = actionMap.FindAction("AlternativeFire");
+        altShooting.started += AlternativeFireAction;
+        altShooting.performed += AlternativeFireAction;
+        altShooting.canceled += AlternativeFireAction;
     }
 
     public void OnUpdate(float deltaTime)
     {
-        var hor = Input.GetAxis("Horizontal");
-        var vert = Input.GetAxis("Vertical");
+        player.SetMovementInput(move.x, move.y);
 
-        player.SetMovementInput(hor, vert);
-
-        if (Input.GetAxis("Jump") > 0) //default - space key
+        if (shoot)
             player.SetWeaponFire();
-        if (Input.GetAxis("Fire3") > 0) //default - left shift key
+
+        if (alternativeShoot)
             player.SetAlternativeWeaponFire();
     }
+
+    private void MoveAction(InputAction.CallbackContext obj)
+    {
+        move = obj.ReadValue<Vector2>();
+    }
+
+    private void FireAction(InputAction.CallbackContext obj)
+    {
+        shoot = obj.ReadValueAsButton();
+    }
+
+    private void AlternativeFireAction(InputAction.CallbackContext obj)
+    {
+        alternativeShoot = obj.ReadValueAsButton();
+    }
 }
-
-
-public interface IPlayerControlled
-{
-    void SetMovementInput(float horizontal, float vertical);
-    void SetWeaponFire();
-    void SetAlternativeWeaponFire();
-}
-
 

@@ -33,7 +33,8 @@ public class GameStarter : MonoBehaviour
         updater.SetLogicDelayer(logicDelayer);
         var shipFactory = new PlayerShipFactory(master);
         var playerShip = new ShipController(shipFactory);
-        var playerControl = new PlayerControl(playerShip, updater);
+        var playerControl = new PlayerControl(playerShip);
+        updater.AddToUpdateList(playerControl);
         master.PositionsHandler.PlayerTransform = playerShip.shipData.transformInfo;
         master.PlayerLogger = new PlayerShipConditionLogger(conditionWindow, playerShip.transformInfo);
         updater.AddToUpdateList(master.PlayerLogger);

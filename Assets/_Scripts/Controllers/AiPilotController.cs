@@ -19,10 +19,12 @@ public class AiPilotController : BaseController
 
     public override void OnUpdate(float deltatime)
     {
-        if (controlledShip == null)
+        if (controlledShip == null || controlledShip.isDisposed)
         {
             Dispose();
+            return;
         }
+
 
         currentRechargeTime -= deltatime;
         if (currentRechargeTime <= 0)
@@ -38,6 +40,16 @@ public class AiPilotController : BaseController
         ship.transformInfo.velocity = deltaVector * ship.stats.speedModifier;
         var angle = Mathf.Atan2(deltaVector.y, deltaVector.x) - 1.570796f;  //90 degs in rads
         ship.transformInfo.currentRadians = angle;
+    }
+
+    public override void Dispose()
+    {
+        if (controlledShip != null)
+        {
+            controlledShip = null;
+        }
+
+        base.Dispose();
     }
 }
 

@@ -58,9 +58,8 @@ public class EnemiesSpawner : IUpdate
     {
         var trInfo = GetRandomTransformInfo();
         var unityTr = master.Spawner.SpawnUnityTransform(PrefabType.Asteroid, 0);
-        unityTr.position = trInfo.position;
         var asteroid = new AsteroidController(master, trInfo, unityTr);
-
+        asteroid.OnUpdate(0);
     }
 
     private void SpawnUFO()
@@ -68,6 +67,7 @@ public class EnemiesSpawner : IUpdate
         var trInfo = GetRandomTransformInfo();
         var ufoShip = new UfoController(trInfo, ufoShipFactory);
         ufoShip.transformInfo.position = trInfo.position;
+        ufoShip.OnUpdate(0);
         var pilot = new AiPilotController(master, 2f, ufoShip);
     }
 

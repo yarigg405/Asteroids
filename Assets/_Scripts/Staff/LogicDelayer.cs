@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-public class LogicDelayer:ILogicDelayer
+public class LogicDelayer : ILogicDelayer
 {
     private List<System.Action> delayedActions = new List<System.Action>();
 

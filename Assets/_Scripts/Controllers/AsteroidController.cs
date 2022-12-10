@@ -57,7 +57,7 @@ public class AsteroidController : BaseController
         for (int i = 0; i < shardsCount; i++)
         {
             var trInfo = new TransformInfo(transformInfo);
-            trInfo.size = transformInfo.size * 0.7f;
+            trInfo.size = transformInfo.size * 0.5f;
             var spd = transformInfo.velocity.magnitude;
             spd *= 1.3f;
             var radians = Random.Range(0f, 360f) * Mathf.Deg2Rad;
@@ -69,6 +69,7 @@ public class AsteroidController : BaseController
 
             var shard = new AsteroidController(linksMaster, trInfo, unityTr);
             shard.numOfPrefab = numOfPrefab;
+            unityTr.position = trInfo.position;
         }
     }
 
