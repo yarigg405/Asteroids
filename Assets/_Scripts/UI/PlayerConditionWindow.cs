@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 
-public class PlayerConditionWindow : MonoBehaviour
+public class PlayerConditionWindow : MonoBehaviour, IPlayerConditionWindow
 {
     [SerializeField] TextMeshProUGUI coords;
     [SerializeField] TextMeshProUGUI rotation;

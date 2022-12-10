@@ -3,7 +3,7 @@
 public class PlayerShipConditionLogger : IUpdate
 {
     private TransformInfo playerTransform;
-    private PlayerConditionWindow window;
+    private IPlayerConditionWindow window;
     private int framesCount = 0;
 
     public int currentLaserCount { set => window.SetLaserCount(value); }
@@ -12,7 +12,7 @@ public class PlayerShipConditionLogger : IUpdate
 
     public int playerScores { set => window.SetScores(value); }
 
-    public PlayerShipConditionLogger(PlayerConditionWindow _window, TransformInfo _playerTransform)
+    public PlayerShipConditionLogger(IPlayerConditionWindow _window, TransformInfo _playerTransform)
     {
         window = _window;
         playerTransform = _playerTransform;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoltController : BaseController, IBolt
+public class BoltController : BaseController
 {
     public BoltStatsContainer boltStats { get; internal set; }
 
@@ -44,14 +44,4 @@ public static class BoltControllerExtensions
         bolt.transformInfo = trInfo;
         return bolt;
     }
-}
-
-public interface IBolt
-{
-}
-
-public enum Team
-{
-    Player,
-    Enemy,
 }

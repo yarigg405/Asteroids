@@ -8,7 +8,7 @@ public abstract class BaseController : IUpdate, IDisposable
     protected Transform unityTransform;
     public bool isDisposed { get; private set; } = false;
 
-    public virtual TransformInfo transformInfo { get; internal set; }
+    public virtual TransformInfo transformInfo { get; set; }
     protected abstract PrefabType prefabType { get; }
     public IFieldCell fieldCell { get; private set; }
     protected virtual int scoresByDestroy { get; }

@@ -68,25 +68,3 @@ public class PrefabSpawner : ISpawner, IDespawner
     }
 }
 
-
-public interface ISpawner
-{
-    public Transform SpawnUnityTransform(PrefabType prefabType, int prefabId);
-}
-
-public interface IDespawner
-{
-    public void Despawn(PrefabType prefabType, Transform tr);
-}
-
-
-public enum PrefabType
-{
-    Null,
-    PlayerShip,
-    Bullet,
-    Asteroid,
-    UFO,
-
-}
-

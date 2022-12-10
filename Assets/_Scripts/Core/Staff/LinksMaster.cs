@@ -9,6 +9,6 @@ public class LinksMaster
     public ILogicDelayer LogicDelayer { get; set; }
     public PlayerShipConditionLogger PlayerLogger { get; set; }
     public PlayerScoresContainer PlayerScoresContainer { get; set; }
-    public GameOverWIndow GameOverWindow { get; set; }
+    public IGameOverWindow GameOverWindow { get; set; }
 
 }

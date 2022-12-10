@@ -59,10 +59,3 @@ public class Updater : MonoBehaviour, IUpdater
     }
 
 }
-
-public interface IUpdater
-{
-    public void AddToUpdateList(IUpdate obj);
-    public void RemoveFromUpdateList(IUpdate obj);
-
-}
