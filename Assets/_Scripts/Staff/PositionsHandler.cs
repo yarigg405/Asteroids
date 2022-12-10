@@ -5,7 +5,7 @@ using UnityEditor.Purchasing;
 public class PositionsHandler : IPositionsHandler
 {
     public TransformInfo PlayerTransform { get; set; }
-    private Dictionary<(int,int),FieldCell> gameField;
+    private Dictionary<(int, int), FieldCell> gameField;
 
     public PositionsHandler(MinMaxBounds bounds)
     {

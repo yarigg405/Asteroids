@@ -18,6 +18,7 @@ public class WeaponLaser : WeaponBaseController
 
 
 
+
     public WeaponLaser(WeaponFactoryBase factory) : base(factory)
     { }
 
@@ -27,13 +28,17 @@ public class WeaponLaser : WeaponBaseController
         if (currentRechargeTime < rechargeTime)
         {
             currentRechargeTime += deltatime;
+            linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
         }
         else
         {
             if (currentCountOfBolts < maxCountOfBolts)
             {
                 currentCountOfBolts++;
-                currentRechargeTime = 0;
+                linksMaster.PlayerLogger.currentLaserCount = currentCountOfBolts;
+                if (currentCountOfBolts < maxCountOfBolts)
+                    currentRechargeTime = 0;
+                linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
             }
         }
 
@@ -49,17 +54,28 @@ public class WeaponLaser : WeaponBaseController
     {
         maxCountOfBolts = count;
         currentCountOfBolts = count;
+        linksMaster.LogicDelayer.AddDelay(() =>
+        {
+            linksMaster.PlayerLogger.currentLaserCount = currentCountOfBolts;
+        });
     }
 
     public void SetBoltsRechargingTime(float time)
     {
         rechargeTime = time;
-        currentRechargeTime = 0f;
+        currentRechargeTime = time;
+        linksMaster.LogicDelayer.AddDelay(() =>
+        {
+            linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+        });
     }
 
     protected override void ConsumeBolts()
     {
         currentCountOfBolts--;
+        currentRechargeTime = 0;
+        linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+        linksMaster.PlayerLogger.currentLaserCount = currentCountOfBolts;
     }
 
     protected override bool IsCanShoot()

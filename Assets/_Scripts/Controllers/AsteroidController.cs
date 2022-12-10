@@ -7,6 +7,7 @@ public class AsteroidController : BaseController
 {
     protected override PrefabType prefabType => PrefabType.Asteroid;
     private int numOfPrefab = 0;
+    protected override int scoresByDestroy { get => 100; }
 
     public AsteroidController(LinksMaster _linksMaster, TransformInfo trInfo, Transform unityTr)
         : base(_linksMaster)

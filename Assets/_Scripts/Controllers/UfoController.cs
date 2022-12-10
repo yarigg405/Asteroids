@@ -4,6 +4,7 @@
 public class UfoController : ShipController
 {
     protected override PrefabType prefabType => PrefabType.UFO;
+    protected override int scoresByDestroy => 300;
 
     public UfoController(TransformInfo transformInfo, ShipFactoryBase factory) : base(factory)
     {

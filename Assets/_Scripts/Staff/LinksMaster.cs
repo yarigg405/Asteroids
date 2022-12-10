@@ -7,5 +7,8 @@ public class LinksMaster
     public IPositionsHandler PositionsHandler { get; set; }
     public MinMaxBounds MinMaxBounds { get; set; }
     public ILogicDelayer LogicDelayer{ get; set; }
+    public PlayerShipConditionLogger PlayerLogger { get; set; }
+    public PlayerScoresContainer PlayerScoresContainer { get; set; }
+    public GameOverWIndow GameOverWindow { get; set; }
 
 }

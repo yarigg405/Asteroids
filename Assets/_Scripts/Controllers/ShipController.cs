@@ -124,7 +124,7 @@ public class ShipController : BaseController, IPlayerControlled
 
     private void PlayerDeath()
     {
-
+        linksMaster.GameOverWindow.Show(linksMaster.PlayerScoresContainer.scores);
     }
 
 

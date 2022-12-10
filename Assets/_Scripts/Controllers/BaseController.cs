@@ -13,6 +13,7 @@ public abstract class BaseController : IUpdate, IDisposable
     public virtual TransformInfo transformInfo { get; internal set; }
     protected abstract PrefabType prefabType { get; }
     public IFieldCell fieldCell { get; private set; }
+    protected virtual int scoresByDestroy { get; }
 
 
     public BaseController(LinksMaster _linksMaster)
@@ -37,6 +38,9 @@ public abstract class BaseController : IUpdate, IDisposable
                 linksMaster.Despawner.Despawn(prefabType, unityTransform);
                 unityTransform = null;
             }
+            linksMaster.PlayerScoresContainer.scores += scoresByDestroy;
+            linksMaster.PlayerLogger.playerScores =
+                    linksMaster.PlayerScoresContainer.scores;
         });
 
     }
