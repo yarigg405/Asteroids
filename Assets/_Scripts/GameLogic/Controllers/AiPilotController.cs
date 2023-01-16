@@ -9,7 +9,7 @@ public class AiPilotController : BaseController
 
     protected override PrefabType prefabType => PrefabType.Null;
 
-    public AiPilotController(LinksMaster _linksMaster, float _fireRate, ShipController shipController) : base(_linksMaster)
+    public AiPilotController(IServiceLocator _serviceLocator, float _fireRate, ShipController shipController) : base(_serviceLocator)
     {
         fireRate = _fireRate;
         controlledShip = shipController;
@@ -33,7 +33,7 @@ public class AiPilotController : BaseController
             controlledShip.SetWeaponFire();
         }
 
-        var player = linksMaster.PositionsHandler.PlayerTransform;
+        var player = serviceLocator.Get<IPositionsHandler>().PlayerTransform;
         var ship = controlledShip.shipData;
 
         var deltaVector = (player.position - ship.transformInfo.position).normalized;

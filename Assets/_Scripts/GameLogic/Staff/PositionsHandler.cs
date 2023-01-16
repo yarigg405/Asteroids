@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class PositionsHandler : IPositionsHandler
+public class PositionsHandler : IPositionsHandler, IService
 {
     public TransformInfo PlayerTransform { get; set; }
     private Dictionary<(int, int), FieldCell> gameField;

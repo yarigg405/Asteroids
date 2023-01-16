@@ -2,7 +2,7 @@
 {
     public override float maxCooldown => 0.1f;
 
-    public TurretWeaponFactory(LinksMaster _linksMaster) : base(_linksMaster)
+    public TurretWeaponFactory(IServiceLocator _serviceLocator) : base(_serviceLocator)
     { }
 
     public override TransformInfo CreateTransformInfo()

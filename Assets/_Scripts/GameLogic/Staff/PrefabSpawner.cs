@@ -1,7 +1,7 @@
 ﻿using ToolBox;
 using UnityEngine;
 
-public class PrefabSpawner : ISpawner, IDespawner
+public class PrefabSpawner : ISpawner, IDespawner, IService
 {
     private PrefabsStorage storage;
     private PoolManager poolManager;

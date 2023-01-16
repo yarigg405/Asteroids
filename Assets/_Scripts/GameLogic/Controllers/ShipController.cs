@@ -11,7 +11,7 @@ public class ShipController : BaseController, IPlayerControlled
 
     public Team team { get; protected set; }
 
-    public ShipController(ShipFactoryBase factory) : base(factory.GetLinksMaster())
+    public ShipController(ShipFactoryBase factory) : base(factory.GetServiceLocator())
     {
         if (factory == null)
         {
@@ -121,7 +121,8 @@ public class ShipController : BaseController, IPlayerControlled
 
     private void PlayerDeath()
     {
-        linksMaster.GameOverWindow.Show(linksMaster.PlayerScoresContainer.scores);
+        var scores = serviceLocator.Get<PlayerScoresContainer>().scores;
+        serviceLocator.Get<IGameOverWindow>().Show(scores);
     }
 
 

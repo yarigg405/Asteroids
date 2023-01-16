@@ -6,12 +6,12 @@
     private const int laserBoltsCount = 5;
     private const float laserBoltsRechargeTime = 3f;
 
-    public PlayerShipFactory(LinksMaster links) : base(links)
+    public PlayerShipFactory(IServiceLocator _serviceLocator) : base(_serviceLocator)
     { }
 
     public override WeaponBaseController CreateMainWeapon()
     {
-        var weaponFactory = new TurretWeaponFactory(linksMaster);
+        var weaponFactory = new TurretWeaponFactory(serviceLocator);
         var weapon = new WeaponTurret(weaponFactory);
 
         return weapon;
@@ -19,7 +19,7 @@
 
     public override WeaponBaseController CreateSecondaryWeapon()
     {
-        var weaponFactory = new LaserWeaponFactory(linksMaster);
+        var weaponFactory = new LaserWeaponFactory(serviceLocator);
         var weapon = new WeaponLaser(weaponFactory);
         weapon.SetMaxBoltsCount(laserBoltsCount);
         weapon.SetBoltsRechargingTime(laserBoltsRechargeTime);

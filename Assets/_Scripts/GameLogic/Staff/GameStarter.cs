@@ -2,43 +2,52 @@ using ToolBox;
 using UnityEngine;
 
 
-
 public class GameStarter : MonoBehaviour
 {
     [SerializeField] PrefabsStorage prefabsStorage;
     [SerializeField] Updater updater;
     [SerializeField] PlayerConditionWindow conditionWindow;
-    [SerializeField] GameOverWIndow gameOverWindow;
+    [SerializeField] GameOverWindow gameOverWindow;
 
     private void Start()
     {
-        LinksMaster master = new LinksMaster();
-        master.MinMaxBounds = new MinMaxBounds()
+        IServiceLocator serviceLocator = new ServiceLocator();
+        var minMax = new MinMaxBounds()
         {
             minX = -4.8f,
             maxX = 4.8f,
             minY = -5.54f,
             maxY = 7.54f,
         };
+        serviceLocator.Register(minMax);
+
         var poolManager = CreatePoolManager();
         var spawner = new PrefabSpawner(prefabsStorage, poolManager);
-        master.Updater = updater;
-        master.Spawner = spawner;
-        master.Despawner = spawner;
-        master.PositionsHandler = CreatePositionHandler(master.MinMaxBounds);
         var logicDelayer = new LogicDelayer();
-        master.LogicDelayer = logicDelayer;
         updater.SetLogicDelayer(logicDelayer);
-        var shipFactory = new PlayerShipFactory(master);
+
+        serviceLocator.Register<IUpdater>(updater);
+        serviceLocator.Register<ISpawner>(spawner);
+        serviceLocator.Register<IDespawner>(spawner);
+        serviceLocator.Register<ILogicDelayer>(logicDelayer);
+
+        var posHandler = new PositionsHandler(minMax);
+        serviceLocator.Register<IPositionsHandler>(posHandler);
+
+        var shipFactory = new PlayerShipFactory(serviceLocator);
         var playerShip = new ShipController(shipFactory);
         var playerControl = new PlayerControl(playerShip);
         updater.AddToUpdateList(playerControl);
-        master.PositionsHandler.PlayerTransform = playerShip.shipData.transformInfo;
-        master.PlayerLogger = new PlayerShipConditionLogger(conditionWindow, playerShip.transformInfo);
-        updater.AddToUpdateList(master.PlayerLogger);
-        var enemiesSpawner = new EnemiesSpawner(master);
-        master.PlayerScoresContainer = new PlayerScoresContainer();
-        master.GameOverWindow = gameOverWindow;
+        posHandler.PlayerTransform = playerShip.shipData.transformInfo;
+
+        var logger = new PlayerShipConditionLogger(conditionWindow, playerShip.transformInfo);
+        updater.AddToUpdateList(logger);
+        serviceLocator.Register(logger);
+
+        serviceLocator.Register(new PlayerScoresContainer());
+        serviceLocator.Register<IGameOverWindow>(gameOverWindow);
+
+        var enemiesSpawner = new EnemiesSpawner(serviceLocator);
     }
 
     private PoolManager CreatePoolManager()
@@ -53,12 +62,4 @@ public class GameStarter : MonoBehaviour
 
         return poolManager;
     }
-
-    private IPositionsHandler CreatePositionHandler(MinMaxBounds bounds)
-    {
-        var positionsHandler = new PositionsHandler(bounds);
-
-        return positionsHandler;
-    }
-
 }

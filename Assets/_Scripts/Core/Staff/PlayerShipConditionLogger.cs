@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerShipConditionLogger : IUpdate
+public class PlayerShipConditionLogger : IUpdate, IService
 {
     private TransformInfo playerTransform;
     private IPlayerConditionWindow window;

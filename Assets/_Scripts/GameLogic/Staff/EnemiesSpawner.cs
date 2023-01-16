@@ -2,7 +2,7 @@
 
 public class EnemiesSpawner : IUpdate
 {
-    private LinksMaster master;
+    private IServiceLocator serviceLocator;
     private ShipFactoryBase ufoShipFactory;
 
     #region SpawnSettings
@@ -13,17 +13,17 @@ public class EnemiesSpawner : IUpdate
     private int minSpawnCount = 1;
     private int maxSpawnCount = 4;
 
-    private float ufoSpawnRatio = 0.1f;
+    private float ufoSpawnRatio = 0.15f;
 
     #endregion
 
 
 
-    public EnemiesSpawner(LinksMaster _master)
+    public EnemiesSpawner(IServiceLocator _serviceLocator)
     {
-        master = _master;
-        master.Updater.AddToUpdateList(this);
-        ufoShipFactory = new EnemyShipFactory(_master);
+        serviceLocator = _serviceLocator;
+        serviceLocator.Get<IUpdater>().AddToUpdateList(this);
+        ufoShipFactory = new EnemyShipFactory(_serviceLocator);
     }
 
     public void OnUpdate(float deltaTime)
@@ -57,8 +57,8 @@ public class EnemiesSpawner : IUpdate
     private void SpawnAsteroid()
     {
         var trInfo = GetRandomTransformInfo();
-        var unityTr = master.Spawner.SpawnUnityTransform(PrefabType.Asteroid, 0);
-        var asteroid = new AsteroidController(master, trInfo, unityTr);
+        var unityTr = serviceLocator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Asteroid, 0);
+        var asteroid = new AsteroidController(serviceLocator, trInfo, unityTr);
         asteroid.OnUpdate(0);
     }
 
@@ -68,7 +68,7 @@ public class EnemiesSpawner : IUpdate
         var ufoShip = new UfoController(trInfo, ufoShipFactory);
         ufoShip.transformInfo.position = trInfo.position;
         ufoShip.OnUpdate(0);
-        var pilot = new AiPilotController(master, 2f, ufoShip);
+        var pilot = new AiPilotController(serviceLocator, 2f, ufoShip);
     }
 
     private TransformInfo GetRandomTransformInfo()

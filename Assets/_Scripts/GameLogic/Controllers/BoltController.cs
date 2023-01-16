@@ -8,7 +8,7 @@ public class BoltController : BaseController
 
     protected override PrefabType prefabType => PrefabType.Bullet;
 
-    public BoltController(LinksMaster linkMaster) : base(linkMaster)
+    public BoltController(IServiceLocator _serviceLocator) : base(_serviceLocator)
     { }
 
     public void SetUnityTransform(Transform unityTransform)

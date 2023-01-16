@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class GameOverWIndow : MonoBehaviour, IGameOverWindow
+public class GameOverWindow : MonoBehaviour, IGameOverWindow, IService
 {
     [SerializeField] TextMeshProUGUI scoresText;
 

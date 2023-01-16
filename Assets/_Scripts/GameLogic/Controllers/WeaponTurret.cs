@@ -11,7 +11,7 @@ public class WeaponTurret : WeaponBaseController
 
     protected override Transform InstantiateBolt()
     {
-        return linksMaster.Spawner.SpawnUnityTransform(PrefabType.Bullet, 0);
+        return serviceLocator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Bullet, 0);
     }
 }
 

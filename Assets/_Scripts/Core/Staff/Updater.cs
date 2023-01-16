@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Updater : MonoBehaviour, IUpdater
+public class Updater : MonoBehaviour, IUpdater, IService
 {
     private List<IUpdate> allUpdates = new List<IUpdate>();
     private List<IUpdate> addToUpdates = new List<IUpdate>();
@@ -57,5 +57,4 @@ public class Updater : MonoBehaviour, IUpdater
     {
         logicDelayer = delayer; ;
     }
-
 }

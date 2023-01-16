@@ -6,8 +6,8 @@ public class AsteroidController : BaseController
     private int numOfPrefab = 0;
     protected override int scoresByDestroy { get => 100; }
 
-    public AsteroidController(LinksMaster _linksMaster, TransformInfo trInfo, Transform unityTr)
-        : base(_linksMaster)
+    public AsteroidController(IServiceLocator _serviceLocator, TransformInfo trInfo, Transform unityTr)
+        : base(_serviceLocator)
     {
         transformInfo = trInfo;
         unityTransform = unityTr;
@@ -62,9 +62,9 @@ public class AsteroidController : BaseController
             var velY = Mathf.Cos(radians) * spd;
             trInfo.velocity = new Vector2(-velX, velY);
 
-            var unityTr = linksMaster.Spawner.SpawnUnityTransform(PrefabType.Asteroid, ++numOfPrefab);
+            var unityTr = serviceLocator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Asteroid, ++numOfPrefab);
 
-            var shard = new AsteroidController(linksMaster, trInfo, unityTr);
+            var shard = new AsteroidController(serviceLocator, trInfo, unityTr);
             shard.numOfPrefab = numOfPrefab;
             unityTr.position = trInfo.position;
         }

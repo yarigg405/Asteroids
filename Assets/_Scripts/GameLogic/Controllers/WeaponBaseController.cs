@@ -15,7 +15,7 @@ public abstract class WeaponBaseController : BaseController, IWeapon
 
     public Team team { get; private set; }
 
-    public WeaponBaseController(WeaponFactoryBase factory) : base(factory.GetLinksMaster())
+    public WeaponBaseController(WeaponFactoryBase factory) : base(factory.GetServiceLocator())
     {
         maxCooldown = factory.maxCooldown;
         ownerShipTransform = factory.CreateTransformInfo();
@@ -61,7 +61,7 @@ public abstract class WeaponBaseController : BaseController, IWeapon
         unityTr.position = trInfo.position;
         unityTr.eulerAngles = new Vector3(0, 0, trInfo.currentRadians * Mathf.Rad2Deg);
 
-        var bolt = new BoltController(linksMaster)
+        var bolt = new BoltController(serviceLocator)
             .SetStats(stats)
             .SetTransformInfo(trInfo);
         bolt.SetUnityTransform(unityTr);

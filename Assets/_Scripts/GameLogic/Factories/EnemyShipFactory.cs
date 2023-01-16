@@ -5,12 +5,12 @@ public class EnemyShipFactory : ShipFactoryBase
     private const float speedMod = 1f;
     private const float rotationMod = 5f;
 
-    public EnemyShipFactory(LinksMaster _linksMaster) : base(_linksMaster)
+    public EnemyShipFactory(IServiceLocator _serviceLocator) : base(_serviceLocator)
     { }
 
     public override WeaponBaseController CreateMainWeapon()
     {
-        var weaponFactory = new TurretWeaponFactory(linksMaster);
+        var weaponFactory = new TurretWeaponFactory(serviceLocator);
         var weapon = new WeaponTurret(weaponFactory);
 
         return weapon;

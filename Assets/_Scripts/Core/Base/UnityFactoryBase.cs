@@ -2,24 +2,24 @@ using UnityEngine;
 
 public abstract class UnityFactoryBase
 {
-    protected LinksMaster linksMaster;
+    protected IServiceLocator serviceLocator;
 
 
-    public UnityFactoryBase(LinksMaster _linksMaster)
+    public UnityFactoryBase(IServiceLocator _serviceLocator)
     {
-        linksMaster = _linksMaster;
+        serviceLocator = _serviceLocator;
     }
 
     public virtual Transform CreateUnityTransform()
     {
-        var transform = linksMaster.Spawner.SpawnUnityTransform(GetPrefabType(), GetPrefabId());
+        var transform = serviceLocator.Get<ISpawner>().SpawnUnityTransform(GetPrefabType(), GetPrefabId());
         transform.localScale = Vector3.one;
         return transform;
     }
 
-    public LinksMaster GetLinksMaster()
+    public IServiceLocator GetServiceLocator()
     {
-        return linksMaster;
+        return serviceLocator;
     }
 
     protected abstract PrefabType GetPrefabType();

@@ -1,4 +1,5 @@
-﻿public class MinMaxBounds
+﻿
+public class MinMaxBounds : IService
 {
     public float minX { get; set; }
     public float maxX { get; set; }

@@ -26,17 +26,18 @@ public class WeaponLaser : WeaponBaseController
         if (currentRechargeTime < rechargeTime)
         {
             currentRechargeTime += deltatime;
-            linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+
+            serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
         }
         else
         {
             if (currentCountOfBolts < maxCountOfBolts)
             {
                 currentCountOfBolts++;
-                linksMaster.PlayerLogger.currentLaserCount = currentCountOfBolts;
+                serviceLocator.Get<PlayerShipConditionLogger>().currentLaserCount = currentCountOfBolts;
                 if (currentCountOfBolts < maxCountOfBolts)
                     currentRechargeTime = 0;
-                linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+                serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
             }
         }
 
@@ -45,16 +46,17 @@ public class WeaponLaser : WeaponBaseController
 
     protected override Transform InstantiateBolt()
     {
-        return linksMaster.Spawner.SpawnUnityTransform(PrefabType.Bullet, 1);
+        return serviceLocator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Bullet, 1);
     }
 
     public void SetMaxBoltsCount(int count)
     {
         maxCountOfBolts = count;
         currentCountOfBolts = count;
-        linksMaster.LogicDelayer.AddDelay(() =>
+
+        serviceLocator.Get<ILogicDelayer>().AddDelay(() =>
         {
-            linksMaster.PlayerLogger.currentLaserCount = currentCountOfBolts;
+            serviceLocator.Get<PlayerShipConditionLogger>().currentLaserCount = currentCountOfBolts;
         });
     }
 
@@ -62,9 +64,9 @@ public class WeaponLaser : WeaponBaseController
     {
         rechargeTime = time;
         currentRechargeTime = time;
-        linksMaster.LogicDelayer.AddDelay(() =>
+        serviceLocator.Get<ILogicDelayer>().AddDelay(() =>
         {
-            linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+            serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
         });
     }
 
@@ -72,8 +74,8 @@ public class WeaponLaser : WeaponBaseController
     {
         currentCountOfBolts--;
         currentRechargeTime = 0;
-        linksMaster.PlayerLogger.currentLaserRechargeTime = rechargeTime - currentRechargeTime;
-        linksMaster.PlayerLogger.currentLaserCount = currentCountOfBolts;
+        serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+        serviceLocator.Get<PlayerShipConditionLogger>().currentLaserCount = currentCountOfBolts;
     }
 
     protected override bool IsCanShoot()

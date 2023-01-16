@@ -1,6 +1,6 @@
 ﻿public abstract class ShipFactoryBase : UnityFactoryBase
 {
-    public ShipFactoryBase(LinksMaster _linksMaster) : base(_linksMaster)
+    public ShipFactoryBase(IServiceLocator _serviceLocator) : base(_serviceLocator)
     { }
 
     public abstract ShipData CreateShipData();
