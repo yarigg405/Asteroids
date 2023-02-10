@@ -4,51 +4,52 @@ using UnityEngine;
 
 public abstract class BaseController : IUpdate, IDisposable
 {
-    protected IServiceLocator serviceLocator;
-    protected Transform unityTransform;
-    public bool isDisposed { get; private set; } = false;
+    protected IServiceLocator Locator;
+    protected Transform UnityTransform;
+    public bool IsDisposed { get; private set; }
 
-    public virtual TransformInfo transformInfo { get; set; }
-    protected abstract PrefabType prefabType { get; }
-    public IFieldCell fieldCell { get; private set; }
-    protected virtual int scoresByDestroy { get; }
+    public virtual TransformInfo TransformInfo { get; set; }
+    protected abstract PrefabType PrefabType { get; }
+    public IFieldCell FieldCell { get; private set; }
+    protected virtual int ScoresByDestroy => 0;
 
 
-    public BaseController(IServiceLocator _serviceLocator)
+    protected BaseController(IServiceLocator locator)
     {
-        if (_serviceLocator != null)
+        if (locator != null)
         {
-            serviceLocator = _serviceLocator;
-            serviceLocator.Get<IUpdater>().AddToUpdateList(this);
+            Locator = locator;
+            Locator.Get<IUpdater>().AddToUpdateList(this);
         }
     }
 
     public virtual void Dispose()
     {
-        isDisposed = true;
+        IsDisposed = true;
 
-        serviceLocator.Get<ILogicDelayer>().AddDelay(() =>
+        Locator.Get<ILogicDelayer>().AddDelay(() =>
         {
-            serviceLocator.Get<IUpdater>().RemoveFromUpdateList(this);
-            if (fieldCell != null)
-                fieldCell.Remove(GetConcreteType(), this);
-            if (unityTransform != null)
+            Locator.Get<IUpdater>().RemoveFromUpdateList(this);
+            if (FieldCell != null)
+                FieldCell.Remove(GetConcreteType(), this);
+            if (UnityTransform != null)
             {
-                serviceLocator.Get<IDespawner>().Despawn(prefabType, unityTransform);
-                unityTransform = null;
+                Locator.Get<IDespawner>().Despawn(PrefabType, UnityTransform);
+                UnityTransform = null;
             }
-            var scores = serviceLocator.Get<PlayerScoresContainer>().scores += scoresByDestroy;
-            serviceLocator.Get<PlayerShipConditionLogger>().playerScores = scores;
+
+            var scores = Locator.Get<PlayerScoresContainer>().Scores += ScoresByDestroy;
+            Locator.Get<PlayerShipConditionLogger>().PlayerScores = scores;
         });
 
     }
 
-    public virtual void OnUpdate(float deltatime)
+    public virtual void OnUpdate(float deltaTime)
     {
-        if (unityTransform != null)
+        if (UnityTransform != null)
         {
-            transformInfo.position += transformInfo.velocity * deltatime;
-            unityTransform.position = transformInfo.position;
+            TransformInfo.Position += TransformInfo.Velocity * deltaTime;
+            UnityTransform.position = TransformInfo.Position;
         }
 
         CheckBounds();
@@ -58,35 +59,35 @@ public abstract class BaseController : IUpdate, IDisposable
 
     private void CheckBounds()
     {
-        var pos = transformInfo.position;
-        var bounds = serviceLocator.Get<MinMaxBounds>();
+        var pos = TransformInfo.Position;
+        var bounds = Locator.Get<MinMaxBounds>();
 
-        if (pos.x > bounds.maxX)
-            pos.x = bounds.minX;
-        if (pos.x < bounds.minX)
-            pos.x = bounds.maxX;
-        if (pos.y > bounds.maxY)
-            pos.y = bounds.minY;
-        if (pos.y < bounds.minY)
-            pos.y = bounds.maxY;
+        if (pos.x > bounds.MaxX)
+            pos.x = bounds.MinX;
+        if (pos.x < bounds.MinX)
+            pos.x = bounds.MaxX;
+        if (pos.y > bounds.MaxY)
+            pos.y = bounds.MinY;
+        if (pos.y < bounds.MinY)
+            pos.y = bounds.MaxY;
 
-        transformInfo.position = pos;
+        TransformInfo.Position = pos;
     }
 
     private void UpdateFieldPosition()
     {
-        var cell = serviceLocator.Get<IPositionsHandler>().GetCell(transformInfo);
-        if (fieldCell == null)
+        var cell = Locator.Get<IPositionsHandler>().GetCell(TransformInfo);
+        if (FieldCell == null)
         {
-            fieldCell = cell;
+            FieldCell = cell;
             cell.Add(GetConcreteType(), this);
         }
 
-        else if (fieldCell != cell)
+        else if (FieldCell != cell)
         {
-            fieldCell.Remove(GetConcreteType(), this);
+            FieldCell.Remove(GetConcreteType(), this);
             cell.Add(GetConcreteType(), this);
-            fieldCell = cell;
+            FieldCell = cell;
         }
     }
 
