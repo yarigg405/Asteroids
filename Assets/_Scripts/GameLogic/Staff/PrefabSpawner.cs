@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class PrefabSpawner : ISpawner, IDespawner, IService
 {
-    private PrefabsStorage storage;
-    private PoolManager poolManager;
+    private readonly PrefabsStorage prefabsStorage;
+    private readonly PoolManager poolManager;
 
-    public PrefabSpawner(PrefabsStorage _storage, PoolManager _poolManager)
+    public PrefabSpawner(PrefabsStorage prefabsStorage, PoolManager poolManager)
     {
-        storage = _storage;
-        poolManager = _poolManager;
+        this.prefabsStorage = prefabsStorage;
+        this.poolManager = poolManager;
     }
 
     public Transform SpawnUnityTransform(PrefabType prefabType, int prefabId)
@@ -24,20 +24,20 @@ public class PrefabSpawner : ISpawner, IDespawner, IService
 
             case PrefabType.PlayerShip:
                 pType = PoolType.Entities;
-                prefab = storage.GetPlayer().gameObject;
+                prefab = prefabsStorage.GetPlayer().gameObject;
                 break;
 
             case PrefabType.Bullet:
                 pType = PoolType.Bullets;
-                prefab = storage.GetBullet(prefabId).gameObject;
+                prefab = prefabsStorage.GetBullet(prefabId).gameObject;
                 break;
 
 
             default:
                 pType = PoolType.Enemies;
                 prefab = (prefabType == PrefabType.Asteroid ?
-                    storage.GetAsteroid(prefabId) :
-                    storage.GetUfos(prefabId)).gameObject;
+                    prefabsStorage.GetAsteroid(prefabId) :
+                    prefabsStorage.GetUfos(prefabId)).gameObject;
                 break;
         }
 

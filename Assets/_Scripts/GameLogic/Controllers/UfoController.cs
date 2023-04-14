@@ -3,14 +3,14 @@
 
 public class UfoController : ShipController
 {
-    protected override PrefabType prefabType => PrefabType.UFO;
-    protected override int scoresByDestroy => 300;
+    protected override PrefabType PrefabType => PrefabType.Ufo;
+    protected override int ScoresByDestroy => 300;
 
     public UfoController(TransformInfo transformInfo, ShipFactoryBase factory) : base(factory)
     {
-        team = Team.Enemy;
-        shipData.transformInfo.velocity = transformInfo.velocity;
-        shipData.transformInfo.position = transformInfo.position;
+        Team = Team.Enemy;
+        ShipData.TransformInfo.Velocity = transformInfo.Velocity;
+        ShipData.TransformInfo.Position = transformInfo.Position;
 
     }
 

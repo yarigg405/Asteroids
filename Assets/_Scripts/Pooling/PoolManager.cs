@@ -6,7 +6,7 @@ namespace ToolBox
 {
     public class PoolManager : IDisposable
     {
-        private Dictionary<int, Pool> pools = new Dictionary<int, Pool>();
+        private readonly Dictionary<int, Pool> pools = new();
 
         public PoolManager()
         {
@@ -21,40 +21,29 @@ namespace ToolBox
             var obj = pools[(int)id].PopulateWith(prefab, amount);
             return obj;
         }
-        private Pool AddPool(PoolType id, bool reparent = true)
+        private void AddPool(PoolType id, bool reParent = true)
         {
-            Pool pool;
-            if (pools.TryGetValue((int)id, out pool) == false)
+            if (pools.TryGetValue((int)id, out var pool) == false)
             {
                 pool = new Pool();
                 pools.Add((int)id, pool);
-                if (reparent)
+                if (reParent)
                 {
-                    var poolsGO = GameObject.Find("[POOLS]") ?? new GameObject("[POOLS]");
-                    var poolGO = new GameObject("Pool:" + id);
-                    poolGO.transform.SetParent(poolsGO.transform);
-                    pool.SetParent(poolGO.transform);
+                    var poolsGo = GameObject.Find("[POOLS]") ?? new GameObject("[POOLS]");
+                    var poolGo = new GameObject("Pool:" + id);
+                    poolGo.transform.SetParent(poolsGo.transform);
+                    pool.SetParent(poolGo.transform);
                 }
             }
-            return pool;
         }
 
 
 
-        public GameObject Spawn(PoolType id, GameObject prefab, Vector3 position = default(Vector3),
-            Quaternion rotation = default(Quaternion),
+        public GameObject Spawn(PoolType id, GameObject prefab, Vector3 position = default,
+            Quaternion rotation = default,
             Transform parent = null)
         {
             return pools[(int)id].Spawn(prefab, position, rotation, parent);
-        }
-
-        public T Spawn<T>(PoolType id, GameObject prefab, Vector3 position = default(Vector3),
-            Quaternion rotation = default(Quaternion),
-            Transform parent = null) where T : class
-        {
-            var val = pools[(int)id].Spawn(prefab, position, rotation, parent);
-            return val.GetComponent<T>();
-
         }
 
         public void Despawn(PoolType id, GameObject obj)

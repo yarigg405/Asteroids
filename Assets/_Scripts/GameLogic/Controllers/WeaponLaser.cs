@@ -2,10 +2,10 @@
 
 public class WeaponLaser : WeaponBaseController
 {
-    protected override float boltSpeed => 7f;
-    protected override int boltDamage => 2;
+    protected override float BoltSpeed => 7f;
+    protected override int BoltDamage => 2;
 
-    protected override PrefabType prefabType => PrefabType.Null;
+    protected override PrefabType PrefabType => PrefabType.Null;
 
 
     private int maxCountOfBolts;
@@ -20,24 +20,24 @@ public class WeaponLaser : WeaponBaseController
     public WeaponLaser(WeaponFactoryBase factory) : base(factory)
     { }
 
-    public override void OnUpdate(float deltatime)
+    public override void OnUpdate(float deltaTime)
     {
-        base.OnUpdate(deltatime);
+        base.OnUpdate(deltaTime);
         if (currentRechargeTime < rechargeTime)
         {
-            currentRechargeTime += deltatime;
+            currentRechargeTime += deltaTime;
 
-            serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+            Locator.Get<PlayerShipConditionLogger>().CurrentLaserRechargeTime = rechargeTime - currentRechargeTime;
         }
         else
         {
             if (currentCountOfBolts < maxCountOfBolts)
             {
                 currentCountOfBolts++;
-                serviceLocator.Get<PlayerShipConditionLogger>().currentLaserCount = currentCountOfBolts;
+                Locator.Get<PlayerShipConditionLogger>().CurrentLaserCount = currentCountOfBolts;
                 if (currentCountOfBolts < maxCountOfBolts)
                     currentRechargeTime = 0;
-                serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+                Locator.Get<PlayerShipConditionLogger>().CurrentLaserRechargeTime = rechargeTime - currentRechargeTime;
             }
         }
 
@@ -46,7 +46,7 @@ public class WeaponLaser : WeaponBaseController
 
     protected override Transform InstantiateBolt()
     {
-        return serviceLocator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Bullet, 1);
+        return Locator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Bullet, 1);
     }
 
     public void SetMaxBoltsCount(int count)
@@ -54,9 +54,9 @@ public class WeaponLaser : WeaponBaseController
         maxCountOfBolts = count;
         currentCountOfBolts = count;
 
-        serviceLocator.Get<ILogicDelayer>().AddDelay(() =>
+        Locator.Get<ILogicDelayer>().AddDelay(() =>
         {
-            serviceLocator.Get<PlayerShipConditionLogger>().currentLaserCount = currentCountOfBolts;
+            Locator.Get<PlayerShipConditionLogger>().CurrentLaserCount = currentCountOfBolts;
         });
     }
 
@@ -64,9 +64,9 @@ public class WeaponLaser : WeaponBaseController
     {
         rechargeTime = time;
         currentRechargeTime = time;
-        serviceLocator.Get<ILogicDelayer>().AddDelay(() =>
+        Locator.Get<ILogicDelayer>().AddDelay(() =>
         {
-            serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
+            Locator.Get<PlayerShipConditionLogger>().CurrentLaserRechargeTime = rechargeTime - currentRechargeTime;
         });
     }
 
@@ -74,8 +74,8 @@ public class WeaponLaser : WeaponBaseController
     {
         currentCountOfBolts--;
         currentRechargeTime = 0;
-        serviceLocator.Get<PlayerShipConditionLogger>().currentLaserRechargeTime = rechargeTime - currentRechargeTime;
-        serviceLocator.Get<PlayerShipConditionLogger>().currentLaserCount = currentCountOfBolts;
+        Locator.Get<PlayerShipConditionLogger>().CurrentLaserRechargeTime = rechargeTime - currentRechargeTime;
+        Locator.Get<PlayerShipConditionLogger>().CurrentLaserCount = currentCountOfBolts;
     }
 
     protected override bool IsCanShoot()

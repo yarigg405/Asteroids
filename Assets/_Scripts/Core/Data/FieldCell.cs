@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class FieldCell : IFieldCell
 {
-    private Dictionary<Type, HashSet<BaseController>> gameEntities;
+    private readonly Dictionary<Type, HashSet<BaseController>> gameEntities;
     public FieldCell()
     {
         gameEntities = new Dictionary<Type, HashSet<BaseController>>();
@@ -25,10 +25,10 @@ public class FieldCell : IFieldCell
 
     public HashSet<BaseController> Get<T>() where T : BaseController
     {
-        if (gameEntities.ContainsKey(typeof(T)))
-            return gameEntities[typeof(T)];
-
-        return new HashSet<BaseController>();
+        return
+            gameEntities.ContainsKey(typeof(T)) ?
+                gameEntities[typeof(T)] :
+                new HashSet<BaseController>();
     }
 }
 

@@ -14,10 +14,10 @@ public class GameStarter : MonoBehaviour
         IServiceLocator serviceLocator = new ServiceLocator();
         var minMax = new MinMaxBounds()
         {
-            minX = -4.8f,
-            maxX = 4.8f,
-            minY = -5.54f,
-            maxY = 7.54f,
+            MinX = -4.8f,
+            MaxX = 4.8f,
+            MinY = -5.54f,
+            MaxY = 7.54f,
         };
         serviceLocator.Register(minMax);
 
@@ -38,9 +38,9 @@ public class GameStarter : MonoBehaviour
         var playerShip = new ShipController(shipFactory);
         var playerControl = new PlayerControl(playerShip);
         updater.AddToUpdateList(playerControl);
-        posHandler.PlayerTransform = playerShip.shipData.transformInfo;
+        posHandler.PlayerTransform = playerShip.ShipData.TransformInfo;
 
-        var logger = new PlayerShipConditionLogger(conditionWindow, playerShip.transformInfo);
+        var logger = new PlayerShipConditionLogger(conditionWindow, playerShip.TransformInfo);
         updater.AddToUpdateList(logger);
         serviceLocator.Register(logger);
 

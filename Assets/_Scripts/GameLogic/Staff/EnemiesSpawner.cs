@@ -2,28 +2,28 @@
 
 public class EnemiesSpawner : IUpdate
 {
-    private IServiceLocator serviceLocator;
-    private ShipFactoryBase ufoShipFactory;
+    private readonly IServiceLocator serviceLocator;
+    private readonly ShipFactoryBase ufoShipFactory;
 
     #region SpawnSettings
-    private float minSpawnTime = 4f;
-    private float maxSpawnTime = 10f;
+    private const float MinSpawnTime = 4f;
+    private const float MaxSpawnTime = 10f;
     private float spawnTime = 3f;
 
-    private int minSpawnCount = 1;
-    private int maxSpawnCount = 4;
+    private const int MinSpawnCount = 1;
+    private const int MaxSpawnCount = 4;
 
-    private float ufoSpawnRatio = 0.15f;
+    private const float UfoSpawnRatio = 0.15f;
 
     #endregion
 
 
 
-    public EnemiesSpawner(IServiceLocator _serviceLocator)
+    public EnemiesSpawner(IServiceLocator serviceLocator)
     {
-        serviceLocator = _serviceLocator;
-        serviceLocator.Get<IUpdater>().AddToUpdateList(this);
-        ufoShipFactory = new EnemyShipFactory(_serviceLocator);
+        this.serviceLocator = serviceLocator;
+        this.serviceLocator.Get<IUpdater>().AddToUpdateList(this);
+        ufoShipFactory = new EnemyShipFactory(serviceLocator);
     }
 
     public void OnUpdate(float deltaTime)
@@ -31,19 +31,19 @@ public class EnemiesSpawner : IUpdate
         spawnTime -= deltaTime;
         if (spawnTime < 0)
         {
-            spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
+            spawnTime = Random.Range(MinSpawnTime, MaxSpawnTime);
             SpawnTick();
         }
     }
 
     private void SpawnTick()
     {
-        var count = Random.Range(minSpawnCount, maxSpawnCount);
-        for (int i = 0; i < count; i++)
+        var count = Random.Range(MinSpawnCount, MaxSpawnCount);
+        for (var i = 0; i < count; i++)
         {
-            if (Random.Range(0f, 1f) < ufoSpawnRatio)
+            if (Random.Range(0f, 1f) < UfoSpawnRatio)
             {
-                SpawnUFO();
+                SpawnUfo();
             }
 
             else
@@ -62,27 +62,27 @@ public class EnemiesSpawner : IUpdate
         asteroid.OnUpdate(0);
     }
 
-    private void SpawnUFO()
+    private void SpawnUfo()
     {
         var trInfo = GetRandomTransformInfo();
         var ufoShip = new UfoController(trInfo, ufoShipFactory);
-        ufoShip.transformInfo.position = trInfo.position;
+        ufoShip.TransformInfo.Position = trInfo.Position;
         ufoShip.OnUpdate(0);
         var pilot = new AiPilotController(serviceLocator, 2f, ufoShip);
     }
 
-    private TransformInfo GetRandomTransformInfo()
+    private static TransformInfo GetRandomTransformInfo()
     {
         var trInfo = new TransformInfo();
         var spd = Random.Range(1f, 3f);
 
         var radians = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        trInfo.currentRadians = radians;
+        trInfo.CurrentRadians = radians;
         var velX = Mathf.Sin(radians) * spd;
         var velY = Mathf.Cos(radians) * spd;
-        trInfo.velocity = new Vector2(-velX, velY);
+        trInfo.Velocity = new Vector2(-velX, velY);
 
-        trInfo.position = Vector2.zero.GetRandomCoordinatesAroundPoint(50f, true);
+        trInfo.Position = Vector2.zero.GetRandomCoordinatesAroundPoint(50f, true);
 
         return trInfo;
     }

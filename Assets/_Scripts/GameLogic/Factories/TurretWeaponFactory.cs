@@ -1,8 +1,8 @@
 ﻿public class TurretWeaponFactory : WeaponFactoryBase
 {
-    public override float maxCooldown => 0.1f;
+    public override float MaxCooldown => 0.1f;
 
-    public TurretWeaponFactory(IServiceLocator _serviceLocator) : base(_serviceLocator)
+    public TurretWeaponFactory(IServiceLocator serviceLocator) : base(serviceLocator)
     { }
 
     public override TransformInfo CreateTransformInfo()

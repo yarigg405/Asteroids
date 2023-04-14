@@ -2,20 +2,20 @@
 
 public class PlayerShipConditionLogger : IUpdate, IService
 {
-    private TransformInfo playerTransform;
-    private IPlayerConditionWindow window;
-    private int framesCount = 0;
+    private readonly TransformInfo playerTransformInfo;
+    private readonly IPlayerConditionWindow playerConditionWindow;
+    private int framesCount;
 
-    public int currentLaserCount { set => window.SetLaserCount(value); }
+    public int CurrentLaserCount { set => playerConditionWindow.SetLaserCount(value); }
 
-    public float currentLaserRechargeTime { set => window.SetLaserTime(value); }
+    public float CurrentLaserRechargeTime { set => playerConditionWindow.SetLaserTime(value); }
 
-    public int playerScores { set => window.SetScores(value); }
+    public int PlayerScores { set => playerConditionWindow.SetScores(value); }
 
-    public PlayerShipConditionLogger(IPlayerConditionWindow _window, TransformInfo _playerTransform)
+    public PlayerShipConditionLogger(IPlayerConditionWindow playerConditionWindow, TransformInfo playerTransformInfo)
     {
-        window = _window;
-        playerTransform = _playerTransform;
+        this.playerConditionWindow = playerConditionWindow;
+        this.playerTransformInfo = playerTransformInfo;
     }
 
     public void OnUpdate(float deltaTime)
@@ -23,9 +23,9 @@ public class PlayerShipConditionLogger : IUpdate, IService
         framesCount++;
         if (framesCount % 30 == 0)
         {
-            window.SetCoords(playerTransform.position);
-            window.SetRotation(playerTransform.currentRadians * Mathf.Rad2Deg);
-            window.SetSpeed(playerTransform.velocity.magnitude);
+            playerConditionWindow.SetCoords(playerTransformInfo.Position);
+            playerConditionWindow.SetRotation(playerTransformInfo.CurrentRadians * Mathf.Rad2Deg);
+            playerConditionWindow.SetSpeed(playerTransformInfo.Velocity.magnitude);
         }
     }
 }

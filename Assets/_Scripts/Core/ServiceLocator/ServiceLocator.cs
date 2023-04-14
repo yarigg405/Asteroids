@@ -4,34 +4,34 @@ using System.Collections.Generic;
 
 public class ServiceLocator : IServiceLocator
 {
-    protected Dictionary<Type, IService> _services;
+    protected Dictionary<Type, IService> Services;
 
     public ServiceLocator()
     {
-        _services = new Dictionary<Type, IService>();
+        Services = new Dictionary<Type, IService>();
     }
 
 
     public void Register(IService service)
     {
         var type = service.GetType();
-        if (_services.ContainsKey(type))
+        if (Services.ContainsKey(type))
         {
             throw new Exception($"Object with type {type} already added");
         }
 
-        _services[type] = service;
+        Services[type] = service;
     }
 
     public void Register<T>(IService service)
     {
         var type = typeof(T);
-        if (_services.ContainsKey(type))
+        if (Services.ContainsKey(type))
         {
             throw new Exception($"Object with type {type} already added");
         }
 
-        _services[type] = service;
+        Services[type] = service;
     }
 
 
@@ -39,8 +39,8 @@ public class ServiceLocator : IServiceLocator
     {
         var type = typeof(T);
 
-        if (_services.ContainsKey(type))
-            return (T)_services[type];
+        if (Services.ContainsKey(type))
+            return (T)Services[type];
 
         throw new Exception($"Service with type {type} not found");
     }

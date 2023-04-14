@@ -4,7 +4,7 @@
     PlayerShip,
     Bullet,
     Asteroid,
-    UFO,
+    Ufo,
 
 }
 

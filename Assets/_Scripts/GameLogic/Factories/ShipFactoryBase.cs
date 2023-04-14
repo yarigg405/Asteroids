@@ -1,12 +1,8 @@
 ﻿public abstract class ShipFactoryBase : UnityFactoryBase
 {
-    public ShipFactoryBase(IServiceLocator _serviceLocator) : base(_serviceLocator)
+    protected ShipFactoryBase(IServiceLocator serviceLocator) : base(serviceLocator)
     { }
 
     public abstract ShipData CreateShipData();
-
-    public abstract WeaponBaseController CreateMainWeapon();
-
-    public abstract WeaponBaseController CreateSecondaryWeapon();
 }
 

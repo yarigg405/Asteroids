@@ -1,12 +1,12 @@
 ﻿public class ShipStatsContainer
 {
-    public float rotationModifier { get; private set; }
-    public float speedModifier { get; private set; }
+    public float RotationModifier { get; }
+    public float SpeedModifier { get; }
 
     public ShipStatsContainer(float rotation, float speed)
     {
-        rotationModifier = rotation;
-        speedModifier = speed;
+        RotationModifier = rotation;
+        SpeedModifier = speed;
     }
 }
 

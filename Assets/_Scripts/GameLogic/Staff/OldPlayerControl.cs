@@ -4,7 +4,7 @@
 
 public class OldPlayerControl : IUpdate
 {
-    IPlayerControlled player;
+    readonly IPlayerControlled player;
 
     public OldPlayerControl(IPlayerControlled playerControlled)
     {

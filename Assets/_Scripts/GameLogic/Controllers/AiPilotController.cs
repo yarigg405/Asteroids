@@ -4,51 +4,48 @@
 public class AiPilotController : BaseController
 {
     private ShipController controlledShip;
-    private float fireRate;
-    private float currentRechargeTime = 0;
+    private readonly float fireRate;
+    private float currentRechargeTime;
 
-    protected override PrefabType prefabType => PrefabType.Null;
+    protected override PrefabType PrefabType => PrefabType.Null;
 
-    public AiPilotController(IServiceLocator _serviceLocator, float _fireRate, ShipController shipController) : base(_serviceLocator)
+    public AiPilotController(IServiceLocator locator, float fireRate, ShipController shipController) : base(
+        locator)
     {
-        fireRate = _fireRate;
+        this.fireRate = fireRate;
         controlledShip = shipController;
     }
 
 
 
-    public override void OnUpdate(float deltatime)
+    public override void OnUpdate(float deltaTime)
     {
-        if (controlledShip == null || controlledShip.isDisposed)
+        if (controlledShip == null || controlledShip.IsDisposed)
         {
             Dispose();
             return;
         }
 
 
-        currentRechargeTime -= deltatime;
+        currentRechargeTime -= deltaTime;
         if (currentRechargeTime <= 0)
         {
             currentRechargeTime = fireRate;
             controlledShip.SetWeaponFire();
         }
 
-        var player = serviceLocator.Get<IPositionsHandler>().PlayerTransform;
-        var ship = controlledShip.shipData;
+        var player = Locator.Get<IPositionsHandler>().PlayerTransform;
+        var ship = controlledShip.ShipData;
 
-        var deltaVector = (player.position - ship.transformInfo.position).normalized;
-        ship.transformInfo.velocity = deltaVector * ship.stats.speedModifier;
-        var angle = Mathf.Atan2(deltaVector.y, deltaVector.x) - 1.570796f;  //90 degs in rads
-        ship.transformInfo.currentRadians = angle;
+        var deltaVector = (player.Position - ship.TransformInfo.Position).normalized;
+        ship.TransformInfo.Velocity = deltaVector * ship.Stats.SpeedModifier;
+        var angle = Mathf.Atan2(deltaVector.y, deltaVector.x) - 1.570796f; //90 degrees in rads
+        ship.TransformInfo.CurrentRadians = angle;
     }
 
     public override void Dispose()
     {
-        if (controlledShip != null)
-        {
-            controlledShip = null;
-        }
-
+        controlledShip = null;
         base.Dispose();
     }
 }

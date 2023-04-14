@@ -5,34 +5,34 @@ public abstract class WeaponBaseController : BaseController, IWeapon
     private TransformInfo ownerShipTransform;
 
     //weaponStats
-    private float maxCooldown;
+    private readonly float maxCooldown;
     private float currentCooldown;
 
     //boltsStats
-    protected virtual float boltSpeed => 1f;
-    protected virtual float boltLifeTime => 1f;
-    protected virtual int boltDamage => 1;
+    protected virtual float BoltSpeed => 1f;
+    protected virtual float BoltLifeTime => 1f;
+    protected virtual int BoltDamage => 1;
 
-    public Team team { get; private set; }
+    public Team Team { get; private set; }
 
-    public WeaponBaseController(WeaponFactoryBase factory) : base(factory.GetServiceLocator())
+    protected WeaponBaseController(WeaponFactoryBase factory) : base(factory.GetServiceLocator())
     {
-        maxCooldown = factory.maxCooldown;
+        maxCooldown = factory.MaxCooldown;
         ownerShipTransform = factory.CreateTransformInfo();
     }
 
-    public void SetOwnerShipTransform(TransformInfo transformInfo, Team _team)
+    public void SetOwnerShipTransform(TransformInfo trInfo, Team team)
     {
-        ownerShipTransform = transformInfo;
-        team = _team;
+        ownerShipTransform = trInfo;
+        Team = team;
     }
 
 
-    public override void OnUpdate(float deltatime)
+    public override void OnUpdate(float deltaTime)
     {
         if (currentCooldown > 0)
         {
-            currentCooldown -= deltatime;
+            currentCooldown -= deltaTime;
         }
     }
 
@@ -41,32 +41,31 @@ public abstract class WeaponBaseController : BaseController, IWeapon
         if (IsCanShoot())
         {
             currentCooldown = maxCooldown;
-            var bolt = CreateBolt();
+            CreateBolt();
             ConsumeBolts();
         }
     }
 
-    private BoltController CreateBolt()
+    private void CreateBolt()
     {
-        var stats = new BoltStatsContainer(boltSpeed, boltLifeTime, boltDamage);
+        var stats = new BoltStatsContainer(BoltSpeed, BoltLifeTime, BoltDamage);
         var trInfo = new TransformInfo(ownerShipTransform);
 
-        var velX = Mathf.Sin(trInfo.currentRadians) * stats.boltSpeed;
-        var velY = Mathf.Cos(trInfo.currentRadians) * stats.boltSpeed;
-        trInfo.velocity = new Vector2(-velX, velY);
-        trInfo.size = 0.1f;
+        var velX = Mathf.Sin(trInfo.CurrentRadians) * stats.BoltSpeed;
+        var velY = Mathf.Cos(trInfo.CurrentRadians) * stats.BoltSpeed;
+        trInfo.Velocity = new Vector2(-velX, velY);
+        trInfo.Size = 0.1f;
 
         var unityTr = InstantiateBolt();
         unityTr.transform.localScale = Vector3.one;
-        unityTr.position = trInfo.position;
-        unityTr.eulerAngles = new Vector3(0, 0, trInfo.currentRadians * Mathf.Rad2Deg);
+        unityTr.position = trInfo.Position;
+        unityTr.eulerAngles = new Vector3(0, 0, trInfo.CurrentRadians * Mathf.Rad2Deg);
 
-        var bolt = new BoltController(serviceLocator)
+        var bolt = new BoltController(Locator)
             .SetStats(stats)
             .SetTransformInfo(trInfo);
         bolt.SetUnityTransform(unityTr);
         bolt.SetTeam(this);
-        return bolt;
     }
 
     protected abstract Transform InstantiateBolt();

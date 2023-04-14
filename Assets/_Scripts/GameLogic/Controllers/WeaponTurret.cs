@@ -2,8 +2,8 @@
 
 public class WeaponTurret : WeaponBaseController
 {
-    protected override float boltSpeed => 5f;
-    protected override PrefabType prefabType => PrefabType.Null;
+    protected override float BoltSpeed => 5f;
+    protected override PrefabType PrefabType => PrefabType.Null;
 
     public WeaponTurret(WeaponFactoryBase factory) : base(factory)
     { }
@@ -11,7 +11,7 @@ public class WeaponTurret : WeaponBaseController
 
     protected override Transform InstantiateBolt()
     {
-        return serviceLocator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Bullet, 0);
+        return Locator.Get<ISpawner>().SpawnUnityTransform(PrefabType.Bullet, 0);
     }
 }
 

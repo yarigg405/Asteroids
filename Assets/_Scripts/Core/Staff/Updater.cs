@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Updater : MonoBehaviour, IUpdater, IService
 {
-    private List<IUpdate> allUpdates = new List<IUpdate>();
-    private List<IUpdate> addToUpdates = new List<IUpdate>();
-    private List<IUpdate> removeFromUpdates = new List<IUpdate>();
+    private readonly List<IUpdate> allUpdates = new();
+    private readonly List<IUpdate> addToUpdates = new();
+    private readonly List<IUpdate> removeFromUpdates = new();
     private ILogicDelayer logicDelayer;
 
     private void Update()
@@ -55,6 +55,6 @@ public class Updater : MonoBehaviour, IUpdater, IService
     public void SetLogicDelayer(ILogicDelayer delayer)
 
     {
-        logicDelayer = delayer; ;
+        logicDelayer = delayer;
     }
 }

@@ -1,10 +1,9 @@
-﻿
-
+﻿using System;
 using System.Collections.Generic;
 
 public class LogicDelayer : ILogicDelayer, IService
 {
-    private List<System.Action> delayedActions = new List<System.Action>();
+    private readonly List<Action> delayedActions = new();
 
 
     public void DoDelayedLogic()
@@ -16,7 +15,7 @@ public class LogicDelayer : ILogicDelayer, IService
         delayedActions.Clear();
     }
 
-    public void AddDelay(System.Action action)
+    public void AddDelay(Action action)
     {
         delayedActions.Add(action);
     }

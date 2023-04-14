@@ -8,21 +8,20 @@ namespace ToolBox
     public class Pool : IDisposable
     {
         private Transform parentPool;
-        private Dictionary<int, Queue<GameObject>> cachedObjects = new Dictionary<int, Queue<GameObject>>();
-        private Dictionary<int, int> cachedIds = new Dictionary<int, int>();
-        protected int index;
+        private readonly Dictionary<int, Queue<GameObject>> cachedObjects = new();
+        private readonly Dictionary<int, int> cachedIds = new();
+        protected int Index;
 
         public Pool PopulateWith(GameObject prefab, int amount)
         {
             var key = prefab.GetInstanceID();
-            Queue<GameObject> Queue;
-            var Queueed = cachedObjects.TryGetValue(key, out Queue);
-            if (Queueed == false)
+            var queued = cachedObjects.TryGetValue(key, out _);
+            if (queued == false)
                 cachedObjects.Add(key, new Queue<GameObject>());
 
             while (amount > 0)
             {
-                index = amount;
+                Index = amount;
                 var go = Populate(prefab, prefab.transform.position, prefab.transform.rotation, parentPool);
                 go.SetActive(false);
                 cachedIds.Add(go.GetInstanceID(), key);
@@ -39,17 +38,16 @@ namespace ToolBox
         }
 
 
-        public GameObject Spawn(GameObject prefab, Vector3 position = default(Vector3),
-            Quaternion rotation = default(Quaternion), Transform parent = null)
+        public GameObject Spawn(GameObject prefab, Vector3 position = default,
+            Quaternion rotation = default, Transform parent = null)
         {
-            index++;
+            Index++;
             var key = prefab.GetInstanceID();
-            Queue<GameObject> Queue;
-            var Queueed = cachedObjects.TryGetValue(key, out Queue);
+            var queued = cachedObjects.TryGetValue(key, out var queue);
 
-            if (Queueed && Queue.Count > 0)
+            if (queued && queue.Count > 0)
             {
-                var transform = Queue.Dequeue().transform;
+                var transform = queue.Dequeue().transform;
                 transform.SetParent(parent);
                 transform.rotation = rotation;
                 transform.gameObject.SetActive(true);
@@ -62,7 +60,7 @@ namespace ToolBox
                 return transform.gameObject;
             }
 
-            if (!Queueed) cachedObjects.Add(key, new Queue<GameObject>());
+            if (!queued) cachedObjects.Add(key, new Queue<GameObject>());
             var createdPrefab = Populate(prefab, position, rotation, parent);
             var isPoolable = createdPrefab.GetComponent<IPoolable>();
             if (isPoolable != null) isPoolable.OnSpawn();
@@ -75,7 +73,7 @@ namespace ToolBox
 
         public void Despawn(GameObject go)
         {
-            index--;
+            Index--;
             go.SetActive(false);
             cachedObjects[cachedIds[go.GetInstanceID()]].Enqueue(go);
             if (parentPool != null) go.transform.SetParent(parentPool);
@@ -92,12 +90,12 @@ namespace ToolBox
         }
 
 
-        GameObject Populate(GameObject prefab, Vector3 position = default(Vector3),
-            Quaternion rotation = default(Quaternion), Transform parent = null)
+        GameObject Populate(GameObject prefab, Vector3 position = default,
+            Quaternion rotation = default, Transform parent = null)
         {
             var go = Object.Instantiate(prefab, position, rotation, parent).transform;
             go.transform.localScale = prefab.transform.localScale;
-            go.name += "_" + index;
+            go.name += "_" + Index;
             if (parent == null) go.position = position;
             else go.localPosition = position;
             return go.gameObject;

@@ -2,26 +2,26 @@
 
 public class TransformInfo
 {
-    public Vector2 velocity { get; set; }
-    public Vector2 position { get; set; }
-    public float currentRadians { get; set; }
+    public Vector2 Velocity { get; set; }
+    public Vector2 Position { get; set; }
+    public float CurrentRadians { get; set; }
 
-    public float size { get; set; }
+    public float Size { get; set; }
 
     public TransformInfo()
     {
-        velocity = Vector2.zero;
-        position = Vector2.zero;
-        currentRadians = 0f;
-        size = 1f;
+        Velocity = Vector2.zero;
+        Position = Vector2.zero;
+        CurrentRadians = 0f;
+        Size = 1f;
     }
 
     public TransformInfo(TransformInfo tr)
     {
-        velocity = tr.velocity;
-        position = tr.position;
-        currentRadians = tr.currentRadians;
-        size = tr.size;
+        Velocity = tr.Velocity;
+        Position = tr.Position;
+        CurrentRadians = tr.CurrentRadians;
+        Size = tr.Size;
     }
 }
 

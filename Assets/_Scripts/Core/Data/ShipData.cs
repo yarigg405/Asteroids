@@ -2,17 +2,19 @@
 
 public class ShipData
 {
-    public ShipStatsContainer stats { get; private set; }
-    public TransformInfo transformInfo { get; protected set; }
-    public IWeapon mainWeapon { get; internal set; }
-    public IWeapon secondaryWeapon { get; internal set; }
+    public ShipStatsContainer Stats { get; }
+    public TransformInfo TransformInfo { get; protected set; }
+    public IWeapon MainWeapon { get; internal set; }
+    public IWeapon SecondaryWeapon { get; internal set; }
 
 
     public ShipData(ShipStatsContainer shipStats)
     {
-        transformInfo = new TransformInfo();
-        transformInfo.size = 0.4f;
-        stats = shipStats;
+        TransformInfo = new TransformInfo
+        {
+            Size = 0.4f
+        };
+        Stats = shipStats;
     }
 
 
@@ -22,15 +24,15 @@ public static class ShipDataExtensions
 {
     public static ShipData SetMainWeapon(this ShipData ship, IWeapon wep, Team team)
     {
-        ship.mainWeapon = wep;
-        wep.SetOwnerShipTransform(ship.transformInfo, team);
+        ship.MainWeapon = wep;
+        wep.SetOwnerShipTransform(ship.TransformInfo, team);
         return ship;
     }
 
     public static ShipData SetSecondaryWeapon(this ShipData ship, IWeapon wep, Team team)
     {
-        ship.secondaryWeapon = wep;
-        wep.SetOwnerShipTransform(ship.transformInfo, team);
+        ship.SecondaryWeapon = wep;
+        wep.SetOwnerShipTransform(ship.TransformInfo, team);
         return ship;
     }
 

@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class ShipController : BaseController, IPlayerControlled
 {
-    public ShipData shipData { get; private set; }
+    public ShipData ShipData { get;}
     private Vector2 playerInput;
-    public override TransformInfo transformInfo => shipData.transformInfo;
+    public override TransformInfo TransformInfo => ShipData.TransformInfo;
 
-    protected override PrefabType prefabType => PrefabType.PlayerShip;
+    protected override PrefabType PrefabType => PrefabType.PlayerShip;
 
-    public Team team { get; protected set; }
+    public Team Team { get; protected set; }
 
     public ShipController(ShipFactoryBase factory) : base(factory.GetServiceLocator())
     {
@@ -19,10 +19,10 @@ public class ShipController : BaseController, IPlayerControlled
         }
 
         playerInput = Vector2.zero;
-        shipData = factory.CreateShipData();
-        unityTransform = factory.CreateUnityTransform();
+        ShipData = factory.CreateShipData();
+        UnityTransform = factory.CreateUnityTransform();
 
-        team = Team.Player;
+        Team = Team.Player;
     }
 
 
@@ -37,32 +37,32 @@ public class ShipController : BaseController, IPlayerControlled
         Rotate(hor);
         CalcMovement(deltaTime);
 
-        MoveGameObject(shipData.transformInfo);
+        MoveGameObject(ShipData.TransformInfo);
         playerInput.x = 0;
         playerInput.y = 0;
     }
 
     protected override void CheckCollisions()
     {
-        CheckCollissionBolts();
-        if (team == Team.Player)
+        CheckCollisionBolts();
+        if (Team == Team.Player)
         {
-            CheckCollissionAsteroid();
+            CheckCollisionAsteroid();
             CheckCollisionUfos();
         }
     }
 
-    private void CheckCollissionBolts()
+    private void CheckCollisionBolts()
     {
-        var nearestBolts = fieldCell.Get<BoltController>();
+        var nearestBolts = FieldCell.Get<BoltController>();
         foreach (var item in nearestBolts)
         {
             var bolt = item as BoltController;
-            if (bolt.team != team)
+            if (bolt.Team != Team)
             {
-                if (IsCollide(shipData.transformInfo, bolt.transformInfo))
+                if (IsCollide(ShipData.TransformInfo, bolt.TransformInfo))
                 {
-                    if (team == Team.Player)
+                    if (Team == Team.Player)
                     {
                         PlayerDeath();
                     }
@@ -75,13 +75,13 @@ public class ShipController : BaseController, IPlayerControlled
         }
     }
 
-    private void CheckCollissionAsteroid()
+    private void CheckCollisionAsteroid()
     {
-        var nearestAsteroids = fieldCell.Get<AsteroidController>();
+        var nearestAsteroids = FieldCell.Get<AsteroidController>();
         foreach (var item in nearestAsteroids)
         {
             var aster = item as AsteroidController;
-            if (IsCollide(shipData.transformInfo, aster.transformInfo))
+            if (IsCollide(ShipData.TransformInfo, aster.TransformInfo))
             {
                 PlayerDeath();
 
@@ -94,13 +94,13 @@ public class ShipController : BaseController, IPlayerControlled
 
     private void CheckCollisionUfos()
     {
-        var ufos = fieldCell.Get<ShipController>();
+        var ufos = FieldCell.Get<ShipController>();
         foreach (var item in ufos)
         {
             var ufo = item as ShipController;
-            if (ufo.team == Team.Enemy)
+            if (ufo.Team == Team.Enemy)
             {
-                if (IsCollide(shipData.transformInfo, ufo.shipData.transformInfo))
+                if (IsCollide(ShipData.TransformInfo, ufo.ShipData.TransformInfo))
                 {
                     PlayerDeath();
 
@@ -111,18 +111,18 @@ public class ShipController : BaseController, IPlayerControlled
         }
     }
 
-    private bool IsCollide(TransformInfo first, TransformInfo second)
+    private static bool IsCollide(TransformInfo first, TransformInfo second)
     {
-        var distance = (first.position - second.position).sqrMagnitude;
-        var radius = (first.size + second.size) * (first.size + second.size);
+        var distance = (first.Position - second.Position).sqrMagnitude;
+        var radius = (first.Size + second.Size) * (first.Size + second.Size);
 
         return distance < radius;
     }
 
     private void PlayerDeath()
     {
-        var scores = serviceLocator.Get<PlayerScoresContainer>().scores;
-        serviceLocator.Get<IGameOverWindow>().Show(scores);
+        var scores = Locator.Get<PlayerScoresContainer>().Scores;
+        Locator.Get<IGameOverWindow>().Show(scores);
     }
 
 
@@ -136,74 +136,74 @@ public class ShipController : BaseController, IPlayerControlled
 
     public void SetWeaponFire()
     {
-        if (shipData.mainWeapon != null)
-            shipData.mainWeapon.TryShoot();
+        if (ShipData.MainWeapon != null)
+            ShipData.MainWeapon.TryShoot();
     }
 
     public void SetAlternativeWeaponFire()
     {
-        if (shipData.secondaryWeapon != null)
-            shipData.secondaryWeapon.TryShoot();
+        if (ShipData.SecondaryWeapon != null)
+            ShipData.SecondaryWeapon.TryShoot();
     }
 
 
 
     private void Thrust(float value)
     {
-        var tr = shipData.transformInfo;
-        var st = shipData.stats;
+        var tr = ShipData.TransformInfo;
+        var st = ShipData.Stats;
 
-        var xDir = Mathf.Sin(tr.currentRadians) * st.speedModifier * value;
-        var yDir = Mathf.Cos(tr.currentRadians) * st.speedModifier * value;
+        var xDir = Mathf.Sin(tr.CurrentRadians) * st.SpeedModifier * value;
+        var yDir = Mathf.Cos(tr.CurrentRadians) * st.SpeedModifier * value;
 
-        tr.velocity = new Vector2(tr.velocity.x - xDir, tr.velocity.y + yDir);
+        tr.Velocity = new Vector2(tr.Velocity.x - xDir, tr.Velocity.y + yDir);
 
     }
 
     private void Rotate(float value)
     {
-        shipData.transformInfo.currentRadians += shipData.stats.rotationModifier * value;
+        ShipData.TransformInfo.CurrentRadians += ShipData.Stats.RotationModifier * value;
     }
 
     private void CalcMovement(float dt)
     {
-        var tr = shipData.transformInfo;
-        tr.position += tr.velocity * dt;
+        var tr = ShipData.TransformInfo;
+        tr.Position += tr.Velocity * dt;
     }
 
 
 
-    private void MoveGameObject(TransformInfo transformInfo)
+    private void MoveGameObject(TransformInfo trInfo)
     {
-        if (!unityTransform) return;
-        SetPosition(transformInfo);
-        SetRotation(transformInfo);
+        if (!UnityTransform) return;
+        SetPosition(trInfo);
+        SetRotation(trInfo);
     }
 
-    private void SetPosition(TransformInfo transformInfo)
+    private void SetPosition(TransformInfo trInfo)
     {
-        var pos = unityTransform.position;
-        pos.x = transformInfo.position.x;
-        pos.y = transformInfo.position.y; ;
+        var pos = UnityTransform.position;
+        pos.x = trInfo.Position.x;
+        pos.y = trInfo.Position.y; 
         pos.z = 0;
 
-        unityTransform.position = pos;
+        UnityTransform.position = pos;
     }
 
-    private void SetRotation(TransformInfo transformInfo)
+    private void SetRotation(TransformInfo trInfo)
     {
-        var newAngle = Mathf.Rad2Deg * transformInfo.currentRadians;
+        var newAngle = Mathf.Rad2Deg * trInfo.CurrentRadians;
         var rot = new Vector3(0, 0, newAngle);
 
-        unityTransform.eulerAngles = rot;
+        UnityTransform.eulerAngles = rot;
     }
 
     public override void Dispose()
     {
-        if (shipData.mainWeapon != null)
-            shipData.mainWeapon.Dispose();
-        if (shipData.secondaryWeapon != null)
-            shipData.secondaryWeapon.Dispose();
+        if (ShipData.MainWeapon != null)
+            ShipData.MainWeapon.Dispose();
+        if (ShipData.SecondaryWeapon != null)
+            ShipData.SecondaryWeapon.Dispose();
         base.Dispose();
     }
 

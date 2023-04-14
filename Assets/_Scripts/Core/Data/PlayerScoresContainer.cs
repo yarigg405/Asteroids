@@ -1,6 +1,6 @@
 ﻿public class PlayerScoresContainer : IService
 {
-    public int scores { get; set; }
+    public int Scores { get; set; }
 
 }
 

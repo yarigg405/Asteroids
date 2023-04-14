@@ -15,17 +15,17 @@ public class PlayerConditionWindow : MonoBehaviour, IPlayerConditionWindow
 
     public void SetCoords(Vector2 position)
     {
-        coords.text = $"coords: {position.x.ToString("0.0")} {position.y.ToString("0.0")}";
+        coords.text = $"coords: {position.x:0.0} {position.y:0.0}";
     }
 
     public void SetRotation(float angle)
     {
-        rotation.text = $"rotation: {angle.ToString("0.0")}";
+        rotation.text = $"rotation: {angle:0.0}";
     }
 
     public void SetSpeed(float spd)
     {
-        speed.text = $"speed: {spd.ToString("0.0")}";
+        speed.text = $"speed: {spd:0.0}";
     }
 
     public void SetLaserCount(int count)
@@ -35,7 +35,7 @@ public class PlayerConditionWindow : MonoBehaviour, IPlayerConditionWindow
 
     public void SetLaserTime(float time)
     {
-        laserTime.text = $"laser recharge time: {time.ToString("0.0")}s";
+        laserTime.text = $"laser recharge time: {time:0.0}s";
     }
 
     public void SetScores(int scoresCount)

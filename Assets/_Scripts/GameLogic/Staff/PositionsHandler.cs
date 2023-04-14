@@ -3,13 +3,13 @@
 public class PositionsHandler : IPositionsHandler, IService
 {
     public TransformInfo PlayerTransform { get; set; }
-    private Dictionary<(int, int), FieldCell> gameField;
+    private readonly Dictionary<(int, int), FieldCell> gameField;
 
     public PositionsHandler(MinMaxBounds bounds)
     {
         gameField = new Dictionary<(int, int), FieldCell>();
-        for (int i = (int)bounds.minX; i <= (int)bounds.maxX; i++)
-            for (int j = (int)bounds.minY; j <= (int)bounds.maxY; j++)
+        for (var i = (int)bounds.MinX; i <= (int)bounds.MaxX; i++)
+            for (var j = (int)bounds.MinY; j <= (int)bounds.MaxY; j++)
             {
                 gameField.Add((i, j), new FieldCell());
             }
@@ -18,7 +18,7 @@ public class PositionsHandler : IPositionsHandler, IService
 
     public IFieldCell GetCell(TransformInfo trInfo)
     {
-        var cell = gameField[((int)trInfo.position.x, (int)trInfo.position.y)];
+        var cell = gameField[((int)trInfo.Position.x, (int)trInfo.Position.y)];
         return cell;
     }
 }

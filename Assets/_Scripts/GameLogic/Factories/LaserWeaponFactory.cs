@@ -1,8 +1,8 @@
 ﻿public class LaserWeaponFactory : WeaponFactoryBase
 {
-    public override float maxCooldown => 1f;
+    public override float MaxCooldown => 1f;
 
-    public LaserWeaponFactory(IServiceLocator _serviceLocator) : base(_serviceLocator)
+    public LaserWeaponFactory(IServiceLocator serviceLocator) : base(serviceLocator)
     { }
 
     public override TransformInfo CreateTransformInfo()

@@ -4,19 +4,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : IUpdate
 {
-    private IPlayerControlled player;
-    private PlayerInput plInput;
+    private readonly IPlayerControlled player;
 
     private Vector2 move;
-    private bool shoot = false;
-    private bool alternativeShoot = false;
+    private bool shoot;
+    private bool alternativeShoot;
 
 
 
     public PlayerControl(IPlayerControlled playerControlled)
     {
         player = playerControlled;
-        plInput = GameObject.FindObjectOfType<PlayerInput>();
+        var plInput = Object.FindObjectOfType<PlayerInput>();
 
         var controls = plInput.actions;
         var actionMap = controls.FindActionMap("Player");
